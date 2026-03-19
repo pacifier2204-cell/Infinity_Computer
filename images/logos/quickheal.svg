@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <rect width="400" height="100" fill="transparent"/>
+  <path d="M40,20 L80,20 L80,60 L40,60 Z" fill="#e74c3c"/>
+  <text x="100" y="65%" font-family="Arial, sans-serif" font-weight="900" font-size="50" fill="#333">Quick Heal</text>
+</svg>

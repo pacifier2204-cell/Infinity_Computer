@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Infinity Computer products and partnerships: laptop brands, consumer and commercial partner categories. Comprehensive IT solutions in Bharuch.">
+  <title>Products & Partners | Infinity Computer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HERO REFINEMENT (Premium Light Theme) ── */
+    .page-hero {
+      position: relative;
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+      padding: 7rem 0 6rem;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        radial-gradient(var(--primary) 0.5px, transparent 0.5px),
+        linear-gradient(rgba(31, 95, 174, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 95, 174, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px, 60px 60px, 60px 60px;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(31, 95, 174, 0.08) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .page-hero-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.05;
+      margin: 1.5rem 0;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .page-hero h1 strong {
+      color: var(--primary);
+    }
+
+    .page-hero p {
+      max-width: 680px;
+      margin: 0 auto 3rem;
+      font-size: 1.15rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── ADDED: FLOATING ORBS (Unique UI) ── */
+    .floating-orb {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle at 30% 30%, rgba(31, 95, 174, 0.15), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-1 {
+      top: -150px;
+      left: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      bottom: -150px;
+      right: -100px;
+      animation: float 12s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(30px, 20px) scale(1.1);
+      }
+    }
+
+    /* ── SCROLLER REFINEMENT ── */
+    .scroller-section {
+      padding: 4rem 0;
+      overflow: hidden;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    /* Added: Gradient Overlay on Scroll (Unique UI) */
+    .scroller-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.3;
+      z-index: 2;
+    }
+
+    .scroller-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.3;
+      z-index: 2;
+    }
+
+    .scroller-label {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--primary);
+      opacity: 0.6;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .scroller-track-wrap {
+      position: relative;
+    }
+
+    .scroller-track {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      animation: scroll-left 60s linear infinite;
+      width: max-content;
+    }
+
+    .scroller-track:hover {
+      animation-play-state: paused;
+    }
+
+    .scroller-track2 {
+      animation-direction: reverse;
+      animation-duration: 75s;
+      margin-top: 2rem;
+    }
+
+    /* ── KPI REFINEMENT (Premium Glassmorphism) ── */
+    .kpi-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .kpi {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 180px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent, rgba(31, 95, 174, 0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .kpi:hover::before {
+      opacity: 1;
+    }
+
+    .kpi:hover {
+      transform: translateY(-8px);
+      background: #ffffff;
+      box-shadow: 0 20px 40px rgba(31, 95, 174, 0.1);
+      border-color: var(--primary);
+    }
+
+    .kpi strong {
+      font-size: 2.22rem;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .kpi span {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Enhanced Scroller Items (Unique UI) */
+    .scroller-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.75rem 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Added: Shine Effect (Unique UI) */
+    .scroller-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .scroller-item:hover::before {
+      left: 100%;
+    }
+
+    .scroller-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 12px 24px rgba(31, 95, 174, 0.12);
+      transform: translateY(-5px);
+    }
+
+    .scroller-logo {
+      height: 26px;
+      width: auto;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    .scroller-item:hover .scroller-logo {
+      transform: scale(1.1);
+    }
+
+    .scroller-item-name {
+      display: none;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── PARTNERSHIP BLOCKS (Enhanced) ── */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .partner-block {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Added: Corner Accent (Unique UI) */
+    .partner-block::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at bottom right, rgba(31, 95, 174, 0.1), transparent 70%);
+      border-radius: 50%;
+      transform: translate(30px, 30px);
+      transition: all 0.5s ease;
+    }
+
+    .partner-block:hover::after {
+      transform: translate(20px, 20px) scale(1.2);
+    }
+
+    .partner-block:hover {
+      border-color: var(--primary);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+
+    .partner-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      width: fit-content;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-block h3 {
+      margin-bottom: 1.25rem;
+      font-size: 1.6rem;
+      color: var(--text);
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-block p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: auto;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-logos img {
+      height: 32px;
+      width: auto;
+      transition: all 0.3s ease;
+    }
+
+    .partner-block:hover .partner-logos img {
+      transform: scale(1.1);
+    }
+
+    /* ── PRODUCT CARDS (Enhanced) ── */
+    .pcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .pcard {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.4s ease;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Added: Card Hover Glow (Unique UI) */
+    .pcard::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    .pcard:hover::before {
+      transform: translateX(100%);
+    }
+
+    .pcard:hover {
+      border-color: var(--primary);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    }
+
+    .pcard-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .pcard-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: var(--primary-soft);
+      color: var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .pcard:hover .pcard-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: var(--primary);
+      color: white;
+    }
+
+    .pcard-meta h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .pcard-meta span {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pcard-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2.5rem;
+    }
+
+    .pcard-list li {
+      font-size: 1rem;
+      color: var(--muted);
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .pcard-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .pcard:hover .pcard-list li::before {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .pcard-list li:hover {
+      transform: translateX(5px);
+      color: var(--text);
+    }
+
+    .pcard-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    /* Updated: Removed logos, kept company names only */
+    .footer-chip {
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .footer-chip:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(31, 95, 174, 0.2);
+    }
+
+    /* ── ECOSYSTEM LOGO GRID (Enhanced) ── */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .logo-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Added: Ripple Effect (Unique UI) */
+    .logo-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(31, 95, 174, 0.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .logo-card:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .logo-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      transform: scale(1.05);
+    }
+
+    .logo-card img {
+      max-height: 45px;
+      max-width: 80%;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-card:hover img {
+      transform: scale(1.1);
+    }
+
+    /* ── ADDED: INFINITY SCROLL ANIMATION (Unique UI) ── */
+    .infinite-scroll-indicator {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .scroll-progress {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(31, 95, 174, 0.3);
+    }
+
+    .scroll-progress.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ── ADDED: HOVER CARD GLOW EFFECT (Unique UI) ── */
+    .hover-glow {
+      transition: all 0.3s ease;
+    }
+
+    .hover-glow:hover {
+      box-shadow: 0 0 20px rgba(31, 95, 174, 0.3);
+    }
+
+    /* ── ADDED: STAT COUNTER ANIMATION (Unique UI) ── */
+    .stat-counter {
+      display: inline-block;
+      animation: countUp 2s ease-out;
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.4, 1.0);
+    }
+
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .partner-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Added: Floating Orbs (Unique UI) -->
+  <div class="floating-orb orb-1"></div>
+  <div class="floating-orb orb-2"></div>
+
+  <!-- Added: Infinity Scroll Indicator (Unique UI) -->
+  <div class="infinite-scroll-indicator" id="scrollIndicator">
+    <div class="scroll-progress" id="scrollProgress">0%</div>
+  </div>
+
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo">
+        <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false"
+        aria-label="Open menu">Menu</button>
+      <nav class="main-nav" data-main-nav aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a class="active" href="products.html">Products &amp; Partners</a></li>
+          <li><a href="education.html">Education</a></li>
+          
+          <li><a href="enrollment.html">Enrollment</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <span class="badge reveal">Authorized Partner Ecosystem</span>
+        <h1 class="reveal">Engineering <strong>Digital Resilience</strong> with Global Expertise</h1>
+        <p class="reveal">Bridging world-leading technology manufacturers with local enterprise excellence. Curated
+          hardware portfolios for businesses, professionals, and academic institutions.</p>
+
+        <div class="kpi-row reveal">
+          <div class="kpi"><strong class="stat-counter" data-target="50">0</strong><span>Tier-1 Partners</span></div>
+          <div class="kpi"><strong class="stat-counter" data-target="15">0</strong><span>Specialized Verticals</span></div>
+          <div class="kpi"><strong class="stat-counter" data-target="5">0</strong><span>Major OEM Alliances</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFINITE SCROLLER -->
+    <div class="scroller-section">
+      <div class="scroller-label">Direct Global Alliances — Hover for Technical Focus</div>
+      <div class="scroller-track-wrap">
+        <div class="scroller-track" id="track1"></div>
+      </div>
+      <div class="scroller-track-wrap" style="margin-top: 0.75rem;">
+        <div class="scroller-track scroller-track2" id="track2"></div>
+      </div>
+    </div>
+
+    <!-- LAPTOP PARTNERSHIPS -->
+    <section class="section">
+      <div class="container">
+        <span class="badge reveal">Computing Division</span>
+        <h2 class="section-title reveal">Consumer & Commercial Strategic Alliances</h2>
+        <p class="section-lead reveal">We leverage multi-year relationships with top manufacturers to provide
+          prioritized supply and certified technical assurance.</p>
+
+        <div class="partner-grid">
+          <div class="partner-block reveal">
+            <span class="partner-tag">Home & Student Portfolio</span>
+            <h3>Personal Lifestyle Computing</h3>
+            <p style="color: var(--muted); font-size: 1rem; line-height: 1.6;">Curated selections for high-performance
+              students, creative designers, and enthusiasts requiring specialized hardware configurations.</p>
+            <div class="partner-logos">
+              <img src="images/logos/dell.svg" alt="Dell Logo">
+              <img src="images/logos/acer.svg" alt="Acer Logo">
+            </div>
+          </div>
+
+          <div class="partner-block reveal">
+            <span class="partner-tag" style="background: rgba(112,0,255,0.08); color: #7000ff;">Enterprise &
+              Engineering</span>
+            <h3>Commercial & Pro-Line Brands</h3>
+            <p style="color: var(--muted); font-size: 1rem; line-height: 1.6;">Dedicated lineups for high-availability
+              IT departments, military-grade reliability, and unified workspace deployments.</p>
+            <div class="partner-logos">
+              <img src="images/logos/hp.svg" alt="HP Logo">
+              <img src="images/logos/asus.svg" alt="ASUS Logo">
+              <img src="images/logos/lenovo.svg" alt="Lenovo Logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN PRODUCT CATALOG -->
+    <section class="section" style="background: #f8fafc; border-top: 1px solid var(--border);">
+      <div class="container">
+        <span class="badge reveal">Portfolio Verticals</span>
+        <h2 class="section-title reveal">Managed Technology Categories</h2>
+        <p class="section-lead reveal">Purpose-built infrastructure solutions for modern commerce, networking, and
+          digital physical security.</p>
+
+        <div class="pcard-grid">
+          <!-- CCTV -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #e53e3e; background: rgba(229,62,62,0.1);"><svg width="26"
+                  height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>CCTV & Analytics</h3>
+                <span>Advanced Video Security</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Smart IP Cameras with AI Motion</li>
+              <li>ColorVu Night-Capture Technology</li>
+              <li>Centralized NVR Management</li>
+              <li>High-Density Server Storage</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">Hikvision</span>
+              <span class="footer-chip">Dahua</span>
+              <span class="footer-chip">CP Plus</span>
+              <span class="footer-chip">Prama</span>
+            </div>
+          </article>
+
+          <!-- Access Control -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #b7791f; background: rgba(183,121,31,0.1);"><svg width="26"
+                  height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="18" height="11" x="3" y="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Access & ID Systems</h3>
+                <span>Personnel Management</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Contactless Facial Recognition</li>
+              <li>Fingerprint Attendance Hubs</li>
+              <li>RFID Secure Gate Integration</li>
+              <li>Cloud Attendance Dashboards</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">eSSL</span>
+              <span class="footer-chip">Realtime</span>
+            </div>
+          </article>
+
+          <!-- Networking -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Backbone Infrastructure</h3>
+                <span>Enterprise Connectivity</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Managed L2/L3 Core Switches</li>
+              <li>Wireless 6E Unified Mesh</li>
+              <li>Inter-Site Wireless Bridges</li>
+              <li>Structural Fiber Components</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">TP-Link</span>
+              <span class="footer-chip">D-Link</span>
+              <span class="footer-chip">Cisco</span>
+              <span class="footer-chip">Tenda</span>
+            </div>
+          </article>
+
+          <!-- Systems -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #7000ff; background: rgba(112,0,255,0.1);"><svg width="26"
+                  height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="20" height="14" x="2" y="3" rx="2" />
+                  <line x1="8" x2="16" y1="21" y2="21" />
+                  <line x1="12" x2="12" y1="17" y2="21" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Systems & Visuals</h3>
+                <span>Computing Core</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Latitude & Vostro Enterprise Kits</li>
+              <li>ThinkPad Pro-Series Workstations</li>
+              <li>Color-Accurate Pro Monitors</li>
+              <li>Space-Saving Micro-PCs</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">HP</span>
+              <span class="footer-chip">Dell</span>
+              <span class="footer-chip">Lenovo</span>
+              <span class="footer-chip">Acer</span>
+            </div>
+          </article>
+
+          <!-- Storage -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #319795; background: rgba(49,151,149,0.1);"><svg width="26"
+                  height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="20" height="12" x="2" y="6" rx="2" />
+                  <path d="M6 12h.01M10 12h.01" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Data Ecosystem</h3>
+                <span>Integrity & Speed</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Purple Optimized Video HDDs</li>
+              <li>Gen4 NVMe Rapid SSD Series</li>
+              <li>Server-Grade Registered RAM</li>
+              <li>Secure Portable Data Units</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">WD</span>
+              <span class="footer-chip">Seagate</span>
+              <span class="footer-chip">Kingston</span>
+              <span class="footer-chip">SanDisk</span>
+            </div>
+          </article>
+
+          <!-- Printers -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #d69e2e; background: rgba(214,158,46,0.1);"><svg width="26"
+                  height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect width="12" height="8" x="6" y="14" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Print Infrastructure</h3>
+                <span>Document Lifecycle</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Heavy-Duty Enterprise MFPs</li>
+              <li>High-Volume EcoTank Series</li>
+              <li>POS Receipt & Label Systems</li>
+              <li>Unified Consumable Supply</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">HP</span>
+              <span class="footer-chip">Canon</span>
+              <span class="footer-chip">Epson</span>
+              <span class="footer-chip">Brother</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXTENDED SOLUTIONS & SPECIALIZED HARDWARE -->
+    <section class="section" style="background: #ffffff; position: relative; overflow: hidden;">
+      <!-- Decorative element -->
+      <div style="position: absolute; top: 10%; right: -5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(31, 95, 174, 0.05) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+      
+      <div class="container">
+        <span class="badge reveal">Beyond Core Computing</span>
+        <h2 class="section-title reveal">Specialized Technology & Connectivity Solutions</h2>
+        <p class="section-lead reveal">Expanding our footprint into high-performance hardware, refurbished excellence, and multi-carrier connectivity partnerships.</p>
+
+        <div class="pcard-grid">
+          <!-- PERFORMANCE COMPONENTS -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #4c51bf; background: rgba(76,81,191,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect width="16" height="16" x="4" y="4" rx="2" />
+                  <rect width="6" height="6" x="9" y="9" />
+                  <line x1="9" x2="9" y1="2" y2="4" />
+                  <line x1="15" x2="15" y1="2" y2="4" />
+                  <line x1="9" x2="9" y1="20" y2="22" />
+                  <line x1="15" x2="15" y1="20" y2="22" />
+                  <line x1="20" x2="22" y1="9" y2="9" />
+                  <line x1="20" x2="22" y1="15" y2="15" />
+                  <line x1="2" x2="4" y1="9" y2="9" />
+                  <line x1="2" x2="4" y1="15" y2="15" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Performance Components</h3>
+                <span>Core Hardware Excellence</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>High-End Graphics Cards (NVIDIA/AMD)</li>
+              <li>Multi-Core Processors (Intel Core/Ryzen)</li>
+              <li>Gaming & Enterprise Motherboards</li>
+              <li>DDR4/DDR5 High-Frequency RAM</li>
+              <li>Liquid & Air Cooling Solutions</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">ASUS ROG</span>
+              <span class="footer-chip">MSI</span>
+              <span class="footer-chip">Gigabyte</span>
+              <span class="footer-chip">Zotac</span>
+            </div>
+          </article>
+
+          <!-- REFURBISHED EXCELLENCE -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #38a169; background: rgba(56,161,105,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                  <path d="M21 3v5h-5" />
+                  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                  <path d="M3 21v-5h5" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Refurbished & Second-Hand</h3>
+                <span>Sustainable Technology</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Certified Pre-Owned Laptops</li>
+              <li>Tested Refurbished Desktop Units</li>
+              <li>Economical Component Upgrades</li>
+              <li>Rigorous Multi-Point Testing</li>
+              <li>Full Warranty on Select Items</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">Dell Refurbished</span>
+              <span class="footer-chip">HP Renew</span>
+              <span class="footer-chip">ThinkCentre</span>
+            </div>
+          </article>
+
+          <!-- PROJECTION SYSTEMS -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #ed8936; background: rgba(237,137,54,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3" />
+                  <rect width="20" height="12" x="2" y="6" rx="2" />
+                  <line x1="22" x2="22" y1="10" y2="14" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Visual Projection Systems</h3>
+                <span>Large Format Display</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>4K & Full HD Laser Projectors</li>
+              <li>Short-Throw Educational Units</li>
+              <li>Portable Business Projectors</li>
+              <li>Projector Screens & Mounts</li>
+              <li>Extended AV Cable Solutions</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">Epson</span>
+              <span class="footer-chip">BenQ</span>
+              <span class="footer-chip">Sony</span>
+              <span class="footer-chip">InFocus</span>
+            </div>
+          </article>
+
+          <!-- CONNECTIVITY PARTNERSHIPS -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #e53e3e; background: rgba(229,62,62,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                  <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+                  <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                  <line x1="12" x2="12" y1="20" y2="20" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Connectivity Ecosystem</h3>
+                <span>ISP & Network Alliances</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Jio AirFiber Business Sales</li>
+              <li>Airtel Xstream Fiber Integration</li>
+              <li>Direct Partnership with Airtel & Vi</li>
+              <li>Rural & Urban Connectivity Kits</li>
+              <li>High-Speed 5G Router Solutions</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip" style="background: #e31e24; color: white;">Airtel</span>
+              <span class="footer-chip" style="background: #0a288f; color: white;">Jio</span>
+              <span class="footer-chip" style="background: #e81d22; color: white;">Vi</span>
+            </div>
+          </article>
+
+          <!-- ACCESSORIES & CONSUMABLES -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #805ad5; background: rgba(128,90,213,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  <polyline points="7.5 4.21 12 6.81 16.5 4.21" />
+                  <polyline points="7.5 19.79 7.5 14.6 3 12" />
+                  <polyline points="21 12 16.5 14.6 16.5 19.79" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                  <line x1="12" x2="12" y1="22.08" y2="12" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Essential Tech Accs</h3>
+                <span>The Complete Desktop</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>OEM Printer Ink & Cartridges</li>
+              <li>Multimedia Speakers & Audio</li>
+              <li>Antivirus (Kaspersky/Quick Heal)</li>
+              <li>CCTV Grade Cables & Wiring</li>
+              <li>Smart Router & Switch Range</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">Logitech</span>
+              <span class="footer-chip">Zebronics</span>
+              <span class="footer-chip">D-Link</span>
+              <span class="footer-chip">Quick Heal</span>
+            </div>
+          </article>
+
+          <!-- CUSTOMER SUPPORT & AMC -->
+          <article class="card pcard reveal">
+            <div class="pcard-header">
+              <div class="pcard-icon" style="color: #dd6b20; background: rgba(221,107,32,0.1);"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                </svg></div>
+              <div class="pcard-meta">
+                <h3>Lifecycle Support</h3>
+                <span>Reliability Assured</span>
+              </div>
+            </div>
+            <ul class="pcard-list">
+              <li>Comprehensive AMC Packages</li>
+              <li>Laptop Component Repairing</li>
+              <li>Site Survey for Wifi Services</li>
+              <li>CCTV Maintenance & Wiring</li>
+              <li>Software License Management</li>
+            </ul>
+            <div class="pcard-footer">
+              <span class="footer-chip">AMC</span>
+              <span class="footer-chip">Service</span>
+              <span class="footer-chip">Repair</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECOSYSTEM PARTNERS GRID -->
+    <section class="section">
+      <div class="container">
+        <span class="badge reveal">Validated Manufacturers</span>
+        <h2 class="section-title reveal" style="text-align: center;">Comprehensive Ecosystem Advantage</h2>
+        <p class="section-lead reveal" style="text-align: center; margin-inline: auto;">Unified hardware support and
+          consolidated procurement from the world’s leading technology brands.</p>
+
+        <div class="logo-grid reveal">
+          <div class="logo-card"><img src="images/logos/hikvision.svg" alt="Hikvision"></div>
+          <div class="logo-card"><img src="images/logos/dahua.svg" alt="Dahua"></div>
+          <div class="logo-card"><img src="images/logos/hp.svg" alt="HP"></div>
+          <div class="logo-card"><img src="images/logos/dell.svg" alt="Dell"></div>
+          <div class="logo-card"><img src="images/logos/canon.svg" alt="Canon"></div>
+          <div class="logo-card"><img src="images/logos/epson.svg" alt="Epson"></div>
+          <div class="logo-card"><img src="images/logos/brother.svg" alt="Brother"></div>
+          <div class="logo-card"><img src="images/logos/tplink.svg" alt="TP-Link"></div>
+          <div class="logo-card"><img src="images/logos/dlink.svg" alt="D-Link"></div>
+          <div class="logo-card"><img src="images/logos/kaspersky.png" alt="Kaspersky"></div>
+          <div class="logo-card"><img src="images/logos/lenovo.svg" alt="Lenovo"></div>
+          <div class="logo-card"><img src="images/logos/asus.svg" alt="ASUS"></div>
+          <div class="logo-card"><img src="images/logos/wd.svg" alt="WD"></div>
+          <div class="logo-card"><img src="images/logos/seagate.svg" alt="Seagate"></div>
+          <div class="logo-card"><img src="images/logos/kingston.svg" alt="Kingston"></div>
+          <div class="logo-card"><img src="images/logos/sandisk.svg" alt="SanDisk"></div>
+          <div class="logo-card"><img src="images/logos/benq.svg" alt="BenQ"></div>
+          <div class="logo-card"><img src="images/logos/quickheal.svg" alt="Quick Heal"></div>
+          <div class="logo-card"><img src="images/logos/logitech.svg" alt="Logitech"></div>
+          <div class="logo-card"><img src="images/logos/zebronics.svg" alt="Zebronics"></div>
+          <div class="logo-card"><img src="images/logos/airtellogo.png" alt="Airtel"></div>
+          <div class="logo-card"><img src="images/logos/jio.svg" alt="Jio"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK CALL TO ACTION -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-box reveal"
+          style="background: var(--primary); color: #fff; padding: 5rem; border-radius: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2.5rem; box-shadow: 0 30px 60px rgba(31, 95, 174, 0.2);">
+          <div>
+            <h2 style="color: #fff; margin-bottom: 0.75rem; font-size: 2.4rem;">Modernize Your Technology Stack</h2>
+            <p style="color: rgba(255,255,255,0.8); max-width: 650px; font-size: 1.1rem;">Infinity Computer provides
+              authorized procurement consultation, site architectural analysis, and comprehensive deployment lifecycle
+              support.</p>
+          </div>
+          <div class="actions" style="display: flex; gap: 1.25rem; flex-wrap: wrap; justify-content: center;">
+            <a class="btn" href="tel:02642229070"
+              style="background: #fff; color: var(--primary); border: none; font-weight: 700; padding: 1rem 2.5rem;">Speak
+              with Specialist</a>
+            <a class="btn" href="contact.html"
+              style="background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.4); font-weight: 600; padding: 1rem 2.5rem;">Request
+              a Proposal</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <section>
+        <h3 class="footer-title">Infinity Computer</h3>
+        <p>Providing professional IT solutions, authorized hardware sales, and reliable technical support ecosystems for
+          Bharuch and surrounding regions.</p>
+      </section>
+
+      <section>
+        <h3 class="footer-title">Quick Links</h3>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="profile.html" style="font-weight: 700; color: var(--primary);">View Corporate Profile</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="products.html">Products &amp; Partners</a></li>
+          <li><a href="education.html">Education</a></li>
+          
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="footer-title">Catalog Focus</h3>
+        <ul class="footer-list">
+          <li><span>Surveillance</span></li>
+          <li><span>Computing</span></li>
+          <li><span>Networking</span></li>
+          <li><span>Print Systems</span></li>
+          <li><span>Power Backup</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="footer-title">Contact</h3>
+        <ul class="footer-list">
+          <li><span>FF-10, Shreeji Darshan Complex, Zadeshwar, Bharuch</span></li>
+          <li><a href="tel:02642229070">02642-229070</a></li>
+          <li><a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
+        </ul>
+        <div class="socials" aria-label="Social connections">
+          <a href="https://wa.me/918690514340" target="_blank" class="social whatsapp" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z" />
+            </svg>
+          </a>
+          <a href="mailto:icc@infinitycomputer.in" class="social email" aria-label="Email Us">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          </a>
+        </div>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <div class="global-presence" style="margin-bottom: 10px; opacity: 0.8;"><i class="fas fa-globe" style="margin-right: 8px; color: #fb2a71;"></i>Our Global Presence: UK | UAE | India</div>
+      <small>Copyright <span data-current-year></span> Infinity Computer. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/918690514340" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z" />
+    </svg>
+  </a>
+
+  <script src="js/script.js"></script>
+  <script>
+    // ── SCROLLER DATA (unchanged) ──
+    const brands = [
+      { name: 'Hikvision', cat: 'security', cls: 'cat-security', logo: 'hikvision.svg' },
+      { name: 'Dahua', cat: 'security', cls: 'cat-security', logo: 'dahua.svg' },
+      { name: 'CP Plus', cat: 'security', cls: 'cat-security', logo: 'cpplus.svg' },
+      { name: 'Prama', cat: 'security', cls: 'cat-security', logo: 'prama.svg' },
+      { name: 'eSSL', cat: 'access', cls: 'cat-access', logo: 'essl.png' },
+      { name: 'Realtime', cat: 'access', cls: 'cat-access', logo: 'realtime.png' },
+      { name: 'HP', cat: 'compute', cls: 'cat-compute', logo: 'hp.svg' },
+      { name: 'Dell', cat: 'compute', cls: 'cat-compute', logo: 'dell.svg' },
+      { name: 'Lenovo', cat: 'compute', cls: 'cat-compute', logo: 'lenovo.svg' },
+      { name: 'Acer', cat: 'compute', cls: 'cat-compute', logo: 'acer.svg' },
+      { name: 'ASUS', cat: 'compute', cls: 'cat-compute', logo: 'asus.svg' },
+      { name: 'TP-Link', cat: 'network', cls: 'cat-network', logo: 'tplink.svg' },
+      { name: 'D-Link', cat: 'network', cls: 'cat-network', logo: 'dlink.svg' },
+      { name: 'Canon', cat: 'print', cls: 'cat-print', logo: 'canon.svg' },
+      { name: 'Epson', cat: 'print', cls: 'cat-print', logo: 'epson.svg' },
+      { name: 'Brother', cat: 'print', cls: 'cat-print', logo: 'brother.svg' },
+      { name: 'Kaspersky', cat: 'software', cls: 'cat-software', logo: 'kaspersky.png' },
+      { name: 'Quick Heal', cat: 'software', cls: 'cat-software', logo: 'quickheal.svg' },
+      { name: 'WD', cat: 'storage', cls: 'cat-storage', logo: 'wd.svg' },
+      { name: 'Seagate', cat: 'storage', cls: 'cat-storage', logo: 'seagate.svg' },
+      { name: 'Kingston', cat: 'storage', cls: 'cat-storage', logo: 'kingston.svg' },
+      { name: 'SanDisk', cat: 'storage', cls: 'cat-storage', logo: 'sandisk.svg' },
+      { name: 'Zebronics', cat: 'mobile', cls: 'cat-mobile', logo: 'zebronics.svg' },
+      { name: 'Fingers', cat: 'mobile', cls: 'cat-mobile', logo: 'fingers.svg' }
+    ];
+
+    function fillTrack(id, list) {
+      const track = document.getElementById(id);
+      const doubled = [...list, ...list];
+      doubled.forEach(b => {
+        const item = document.createElement('div');
+        item.className = 'scroller-item';
+        item.innerHTML = `
+          <img src="images/logos/${b.logo}" alt="${b.name}" class="scroller-logo">
+        `;
+        track.appendChild(item);
+      });
+    }
+
+    const half = Math.ceil(brands.length / 2);
+    const firstHalf = brands.slice(0, half);
+    const secondHalf = brands.slice(half);
+
+    fillTrack('track1', firstHalf);
+    fillTrack('track2', secondHalf);
+
+    // ── REVEAL OBSERVER ──
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // ── ADDED: SCROLL PROGRESS INDICATOR (Unique UI) ──
+    window.addEventListener('scroll', function () {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      const progress = document.getElementById('scrollProgress');
+      if (progress) {
+        progress.textContent = Math.round(scrolled) + '%';
+        if (scrolled > 5) {
+          progress.classList.add('show');
+        } else {
+          progress.classList.remove('show');
+        }
+      }
+    });
+
+    // ── ADDED: STAT COUNTER ANIMATION (Unique UI) ──
+    function animateStats() {
+      const stats = document.querySelectorAll('.stat-counter');
+      stats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            stat.textContent = target;
+            clearInterval(timer);
+          } else {
+            stat.textContent = Math.round(current);
+          }
+        }, 30);
+      });
+    }
+
+    // Trigger stats animation when they come into view
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStats();
+          statsObserver.disconnect();
+        }
+      });
+    });
+    document.querySelectorAll('.kpi-row').forEach(el => statsObserver.observe(el));
+  </script>
+</body>
+
+</html>
+

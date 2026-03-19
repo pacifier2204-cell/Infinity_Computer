@@ -1,0 +1,213 @@
+/* Brochure CSS - Digital A4 Template for Infinity Computer */
+
+:root {
+    --brochure-primary: #1e3a8a; /* Deep Navy Blue */
+    --brochure-secondary: #c09b5a; /* Gold/Brass accent (from Singh style) */
+    --brochure-text: #333333;
+    --brochure-gray: #f4f6f8;
+    --brochure-dark: #0f172a;
+    --page-width: 1000px;
+    --page-height: 1414px; /* A4 Ratio */
+    --page-padding: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #e2e8f0; /* Desktop-like background */
+    font-family: 'Poppins', sans-serif;
+    color: var(--brochure-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Page Container */
+.page {
+    width: var(--page-width);
+    min-height: var(--page-height);
+    background: #ffffff;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    margin-bottom: 40px;
+    position: relative;
+    padding: var(--page-padding);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sub-Footer */
+.page-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: var(--brochure-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.page-footer .section-label {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--brochure-secondary);
+}
+
+/* Header Elements */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.page-logo {
+    height: 50px;
+}
+
+/* Cover Page Specific */
+.cover-page {
+    justify-content: center;
+    text-align: left;
+    padding-top: 100px;
+}
+
+.cover-title {
+    font-size: 4.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--brochure-dark);
+    margin-bottom: 20px;
+}
+
+.cover-subtitle {
+    font-size: 1.5rem;
+    color: var(--brochure-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+.cover-image-box {
+    width: calc(100% + 120px);
+    margin-left: -60px;
+    height: 500px;
+    background: #1e3a8a;
+    position: relative;
+    margin-top: 50px;
+}
+
+.cover-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+/* Grid & Content Layouts */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--brochure-dark);
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 6px;
+    background: var(--brochure-secondary);
+}
+
+.highlight-box {
+    background: var(--brochure-gray);
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Services Grid */
+.service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.service-item {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+.service-item h4 {
+    color: var(--brochure-primary);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+/* Strengths / Advantage Badges */
+.strength-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.strength-num {
+    width: 50px;
+    height: 50px;
+    background: var(--brochure-dark);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+/* Footer / Contact */
+.contact-block {
+    margin-top: auto;
+    background: var(--brochure-dark);
+    color: #fff;
+    padding: 40px;
+    margin-left: -60px;
+    margin-right: -60px;
+    margin-bottom: -60px;
+}
+
+@media print {
+    body {
+        padding: 0;
+        background: none;
+    }
+    .page {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+    }
+}
