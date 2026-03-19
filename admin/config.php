@@ -15,7 +15,7 @@ define('OTP_EXPIRY_SECONDS', 30);
 define('MAX_RESEND_ATTEMPTS', 3);
 
 /**
- * Check if admin is logged in (TEMPORARILY BYPASSED)
+ * Check if admin is logged in
  */
 function checkAdminLogin() {
     if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {

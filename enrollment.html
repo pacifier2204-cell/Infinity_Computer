@@ -176,8 +176,8 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="products.html">Products &amp; Partners</a></li>
           <li><a href="education.html">Education</a></li>
-          
           <li><a class="active" href="enrollment.html">Enrollment</a></li>
+          <li><a href="sell_laptop.html">Sell Laptop</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -186,21 +186,22 @@
 
   <main id="main-content">
     <section class="page-hero reveal">
-      <div class="container page-hero-inner" style="text-align: center;">
-        <span class="badge">Registration</span>
-        <h1 class="text-shimmer">Student Enrollment Form</h1>
-        <p>Complete the form below to begin your career-focused learning journey at Infinity Computer.</p>
+      <div class="container page-hero-inner">
+        <div style="text-align: center;">
+          <span class="badge">Registration</span>
+          <h1 class="text-shimmer">Student Enrollment Form</h1>
+          <p style="margin-inline: auto;">Complete the form below to begin your career-focused learning journey at Infinity Computer.</p>
+        </div>
       </div>
     </section>
 
     <div class="container">
       <div class="enroll-form-container">
         <div
-          style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+          style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 40px; text-align: center; gap: 15px;">
           <h1 style="margin: 0; font-size: 28px; color: #0d6efd;">Student Enrollment Form</h1>
           <a href="search.html"
-            style="color: #0d6efd; font-weight: 600; text-decoration: none; border-bottom: 2px solid #0d6efd;">Search
-            Existing Record →</a>
+            style="color: #0d6efd; font-weight: 600; text-decoration: none; border-bottom: 2px solid #0d6efd; width: fit-content;">Search Existing Record →</a>
         </div>
         <p style="color: #6c757d; margin-bottom: 40px;">Professional IT skills development and computer training
           enrollment at Infinity Computer.</p>
@@ -334,14 +335,14 @@
               </div>
             </div>
             <div class="form-grid"
-              style="margin-top: 20px; background: #f8faff; padding: 20px; border-radius: 12px; border: 1px solid #e1e8f0;">
-              <div class="form-group">
+              style="margin-top: 20px; background: #f8faff; padding: 20px; border-radius: 12px; border: 1px solid #e1e8f0; display: flex; flex-wrap: wrap; gap: 20px;">
+              <div class="form-group" style="flex: 1; min-width: 200px;">
                 <label for="joiningDate" style="color: #0d6efd; font-weight: 700;">Academic Joining Date *</label>
                 <input type="date" id="joiningDate" name="joiningDate" class="form-control"
                   style="border-color: #0d6efd;" required>
                 <small style="color: #6c757d;">Note: Select a date from today onwards.</small>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="flex: 1; min-width: 200px;">
                 <label style="color: #198754; font-weight: 700;">Expected Completion Date (Auto-calculated)</label>
                 <input type="text" id="endDateDisplay" class="form-control"
                   style="background-color: #f0fdf4; border-color: #198754; color: #198754; font-weight: 700;" readonly
@@ -398,9 +399,10 @@
             </div>
           </div>
 
-          <div class="g-recaptcha" data-sitekey="6LcadY0sAAAAAJZIH1jS5M3spZQ9qRn05lF0oB6d"
-            data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired"
-            style="margin-bottom: 25px; display: flex; justify-content: center;"></div>
+          <div class="recaptcha-wrapper">
+            <div class="g-recaptcha" data-sitekey="6LcadY0sAAAAAJZIH1jS5M3spZQ9qRn05lF0oB6d"
+              data-callback="onRecaptchaSuccess" data-expired-callback="onRecaptchaExpired"></div>
+          </div>
           <button type="submit" id="submitBtn" class="submit-btn" style="margin-top: 0;" disabled>Proceed with Enrollment</button>
         </form>
       </div>
