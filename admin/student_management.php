@@ -268,25 +268,25 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
                                     </a>
                                 </td>
                                 <td>
-                                    <?php if($status == 'Pending'): ?>
-                                        <div class="d-flex gap-2">
-                                            <button onclick="processAction(<?php echo $row['id']; ?>, 'Successful')" class="btn btn-verify btn-sm rounded-pill px-3">
-                                                Verify
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <button class="btn btn-light btn-sm text-info" onclick='viewStudent(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, "UTF-8"); ?>)' title="View Details">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-light btn-sm text-primary" onclick='editStudent(<?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, "UTF-8"); ?>)' title="Edit Details">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </button>
+                                        <button class="btn btn-light btn-sm text-danger" onclick="deleteStudent(<?php echo $row['id']; ?>)" title="Delete Student">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                        <?php if($status == 'Pending'): ?>
+                                            <button onclick="processAction(<?php echo $row['id']; ?>, 'Successful')" class="btn btn-verify btn-sm rounded-pill px-2" title="Verify">
+                                                <i class="fa-solid fa-check"></i>
                                             </button>
-                                            <button onclick="processAction(<?php echo $row['id']; ?>, 'Cancelled')" class="btn btn-reject btn-sm rounded-pill px-3">
-                                                Reject
+                                            <button onclick="processAction(<?php echo $row['id']; ?>, 'Cancelled')" class="btn btn-reject btn-sm rounded-pill px-2" title="Reject">
+                                                <i class="fa-solid fa-times"></i>
                                             </button>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-light btn-sm text-primary" onclick='editStudent(<?php echo json_encode($row); ?>)'>
-                                                <i class="fa-solid fa-pen"></i>
-                                            </button>
-                                            <button class="btn btn-light btn-sm text-danger" onclick="deleteStudent(<?php echo $row['id']; ?>)">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -324,46 +324,95 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
                     <div class="modal-body">
                         <input type="hidden" name="id" id="student_db_id">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="form-label small fw-bold">Full Name *</label>
                                 <input type="text" name="name" id="f_name" class="form-control" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold">Father's Name</label>
-                                <input type="text" name="father_name" id="f_father" class="form-control">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Father's Name *</label>
+                                <input type="text" name="father_name" id="f_father" class="form-control" required>
                             </div>
-                            <!-- ... (Rest of fields from previous version) ... -->
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold">Email</label>
-                                <input type="email" name="email" id="f_email" class="form-control">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Mother's Name *</label>
+                                <input type="text" name="mother_name" id="f_mother" class="form-control" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Gender *</label>
+                                <select name="gender" id="f_gender" class="form-select" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Date of Birth *</label>
+                                <input type="date" name="dob" id="f_dob" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
                                 <label class="form-label small fw-bold">Phone *</label>
                                 <input type="text" name="phone" id="f_phone" class="form-control" required>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label small fw-bold">Address</label>
-                                <textarea name="address" id="f_address" class="form-control" rows="2"></textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold">City</label>
-                                <input type="text" name="city" id="f_city" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold">District</label>
-                                <input type="text" name="district" id="f_district" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label small fw-bold">Pincode</label>
-                                <input type="text" name="pincode" id="f_pincode" class="form-control">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Email *</label>
+                                <input type="email" name="email" id="f_email" class="form-control" required>
                             </div>
                             <div class="col-md-6">
+                                <label class="form-label small fw-bold">Highest Qualification *</label>
+                                <input type="text" name="qualification" id="f_qualification" class="form-control" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold">Address *</label>
+                                <textarea name="address" id="f_address" class="form-control" rows="2" required></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">City *</label>
+                                <input type="text" name="city" id="f_city" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">District *</label>
+                                <input type="text" name="district" id="f_district" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Pincode *</label>
+                                <input type="text" name="pincode" id="f_pincode" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
                                 <label class="form-label small fw-bold">Course *</label>
                                 <select name="course" id="f_course" class="form-select" required>
                                     <?php foreach($courses as $c): ?>
                                         <option value="<?php echo $c; ?>"><?php echo $c; ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Time Slot *</label>
+                                <select name="time_slot" id="f_timeslot" class="form-select" required>
+                                    <option value="">Select your slot</option>
+                                    <option value="10:00 - 11:00 AM" disabled class="bg-light text-muted">10:00 - 11:00 AM (Full)</option>
+                                    <option value="11:00 - 12:00 PM" disabled class="bg-light text-muted">11:00 - 12:00 PM (Full)</option>
+                                    <option value="12:00 - 01:00 PM" disabled class="bg-light text-muted">12:00 - 01:00 PM (Full)</option>
+                                    <option value="01:00 - 02:00 PM">01:00 - 02:00 PM</option>
+                                    <option value="02:00 - 03:00 PM">02:00 - 03:00 PM</option>
+                                    <option value="03:00 - 04:00 PM">03:00 - 04:00 PM</option>
+                                    <option value="04:00 - 05:00 PM">04:00 - 05:00 PM</option>
+                                    <option value="05:00 - 06:00 PM">05:00 - 06:00 PM</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Joining Date *</label>
+                                <input type="date" name="joining_date" id="f_joining" class="form-control" required onchange="calculateDashEndDate()">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold text-success">End Date <small>(Auto-calc)</small></label>
+                                <input type="text" id="v_form_end_date" class="form-control bg-light text-success fw-bold border-success" readonly placeholder="Calculates automatically">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Student Photo * <small class="text-muted fw-normal">(Optional on update)</small></label>
+                                <input type="file" name="photo" id="f_photo" class="form-control" accept="image/*">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">ID Proof PDF * <small class="text-muted fw-normal">(Optional on update)</small></label>
+                                <input type="file" name="id_proof" id="f_id_proof" class="form-control" accept=".pdf">
                             </div>
                         </div>
                     </div>
@@ -388,12 +437,64 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
         </div>
     </div>
 
+    <!-- View Student Modal -->
+    <div class="modal fade" id="viewStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Student Details <span id="v_student_id" class="text-muted ms-2 fw-normal" style="font-size: 0.9rem;"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-auto">
+                            <img id="v_photo" src="../images/placeholder.jpg" class="rounded border" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="col">
+                            <h3 id="v_name" class="mb-1 text-primary fw-bold"></h3>
+                            <p class="mb-0 text-muted"><i class="fa-solid fa-graduation-cap me-2"></i><span id="v_course"></span> - <span id="v_timeslot"></span></p>
+                            <p class="mb-0 text-muted"><i class="fa-solid fa-clock me-2"></i>Status: <strong id="v_status" class="text-dark"></strong> &nbsp;|&nbsp; Joined: <span id="v_joining"></span></p>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary mb-3 border-bottom pb-2">Personal Information</h6>
+                            <table class="table table-sm table-borderless">
+                                <tr><th class="text-muted" style="width: 140px;">Father's Name:</th><td id="v_father"></td></tr>
+                                <tr><th class="text-muted">Mother's Name:</th><td id="v_mother"></td></tr>
+                                <tr><th class="text-muted">Gender:</th><td id="v_gender"></td></tr>
+                                <tr><th class="text-muted">DOB:</th><td id="v_dob"></td></tr>
+                                <tr><th class="text-muted">Qualification:</th><td id="v_qualification"></td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary mb-3 border-bottom pb-2">Contact & Location</h6>
+                            <table class="table table-sm table-borderless">
+                                <tr><th class="text-muted" style="width: 100px;">Phone:</th><td id="v_phone"></td></tr>
+                                <tr><th class="text-muted">Email:</th><td id="v_email"></td></tr>
+                                <tr><th class="text-muted">Address:</th><td id="v_address"></td></tr>
+                                <tr><th class="text-muted">City / Dist:</th><td><span id="v_city"></span>, <span id="v_district"></span></td></tr>
+                                <tr><th class="text-muted">Pincode:</th><td id="v_pincode"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-top">
+                        <a href="#" id="v_idproof_link" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                            <i class="fa-solid fa-file-pdf me-2"></i>View ID Document
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
         const studentModal = new bootstrap.Modal(document.getElementById('studentModal'));
         const previewModal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        const viewModal = new bootstrap.Modal(document.getElementById('viewStudentModal'));
 
         function previewImage(src) {
             document.getElementById('previewImg').src = src;
@@ -403,7 +504,51 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
         function resetForm() {
             document.getElementById('studentForm').reset();
             document.getElementById('student_db_id').value = '';
+            document.getElementById('f_photo').required = true;
+            document.getElementById('f_id_proof').required = true;
+            document.getElementById('v_form_end_date').value = '';
+            
+            // Dynamic date limits identical to enrollment
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const jInput = document.getElementById('f_joining');
+            jInput.min = tomorrow.toISOString().split('T')[0];
+            const maxFutureDate = new Date(today.getFullYear() + 2, today.getMonth(), today.getDate());
+            jInput.max = maxFutureDate.toISOString().split('T')[0];
+            
+            const dobInput = document.getElementById('f_dob');
+            const minAgeDate = new Date(today.getFullYear() - 7, today.getMonth(), today.getDate());
+            dobInput.max = minAgeDate.toISOString().split('T')[0];
+            const oldestAgeDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+            dobInput.min = oldestAgeDate.toISOString().split('T')[0];
         }
+
+        const courseDurations = {
+            "TALLY": 45, "DTP": 45, "BASIC": 45, "Web Designing": 45,
+            "C Programming": 45, "C++ Programming": 45, "Hardware Networking": 180,
+            "Python Level 1": 45, "ADVANCE TALLY": 30, "ADVANCE Excel": 15,
+            "Advance Word": 15, "ADVANCE BASIC": 60
+        };
+
+        function calculateDashEndDate() {
+            const jDate = document.getElementById('f_joining').value;
+            const course = document.getElementById('f_course').value;
+            const endDisp = document.getElementById('v_form_end_date');
+            if(jDate && course && courseDurations[course]) {
+                const date = new Date(jDate);
+                date.setDate(date.getDate() + courseDurations[course]);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                endDisp.value = date.toLocaleDateString('en-GB', options);
+            } else {
+                endDisp.value = "";
+            }
+        }
+        
+        document.getElementById('f_course').addEventListener('change', calculateDashEndDate);
 
         async function processAction(id, status) {
             const actionText = status === 'Successful' ? 'verify' : 'reject';
@@ -430,18 +575,122 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
             resetForm();
             document.getElementById('student_db_id').value = data.id;
             document.getElementById('f_name').value = data.name;
+            document.getElementById('f_father').value = data.father_name || '';
+            document.getElementById('f_mother').value = data.mother_name || '';
+            
+            // Robust gender selection
+            const targetGender = (data.gender || '').toLowerCase().trim();
+            const gSel = document.getElementById('f_gender');
+            for(let i=0; i<gSel.options.length; i++) {
+                if(gSel.options[i].value.toLowerCase().trim() === targetGender) {
+                    gSel.selectedIndex = i; break;
+                }
+            }
+            
+            document.getElementById('f_dob').value = data.dob || '';
             document.getElementById('f_email').value = data.email || '';
             document.getElementById('f_phone').value = data.phone || '';
+            document.getElementById('f_qualification').value = data.qualification || '';
             document.getElementById('f_address').value = data.address || '';
             document.getElementById('f_city').value = data.city || '';
             document.getElementById('f_district').value = data.district || '';
             document.getElementById('f_pincode').value = data.pincode || '';
-            document.getElementById('f_course').value = data.course;
+            
+            // Robust course selection
+            const targetCourse = (data.course || '').toLowerCase().trim();
+            const cSel = document.getElementById('f_course');
+            for(let i=0; i<cSel.options.length; i++) {
+                if(cSel.options[i].value.toLowerCase().trim() === targetCourse) {
+                    cSel.selectedIndex = i; break;
+                }
+            }
+
+            // Robust time_slot selection
+            const targetSlot = (data.time_slot || '').toLowerCase().trim();
+            const tSel = document.getElementById('f_timeslot');
+            for(let i=0; i<tSel.options.length; i++) {
+                if(tSel.options[i].value.toLowerCase().trim() === targetSlot || tSel.options[i].value.toLowerCase().trim().startsWith(targetSlot)) {
+                    // Try to map exactly. If disabled, JS will select it anyways (admin override)
+                    tSel.selectedIndex = i; break;
+                }
+            }
+
+            document.getElementById('f_joining').removeAttribute('min');
+            document.getElementById('f_joining').removeAttribute('max');
+            document.getElementById('f_joining').value = data.joining_date || '';
+            
+            document.getElementById('f_photo').required = false;
+            document.getElementById('f_id_proof').required = false;
+            
+            calculateDashEndDate();
             studentModal.show();
+        }
+
+        function viewStudent(data) {
+            document.getElementById('v_student_id').textContent = '(' + (data.student_id ? data.student_id : 'Pending ID') + ')';
+            document.getElementById('v_name').textContent = data.name;
+            document.getElementById('v_course').textContent = data.course;
+            document.getElementById('v_timeslot').textContent = data.time_slot || 'Not set';
+            document.getElementById('v_status').textContent = data.verification;
+            document.getElementById('v_joining').textContent = data.joining_date || 'N/A';
+            
+            document.getElementById('v_father').textContent = data.father_name || 'N/A';
+            document.getElementById('v_mother').textContent = data.mother_name || 'N/A';
+            document.getElementById('v_gender').textContent = data.gender || 'N/A';
+            document.getElementById('v_dob').textContent = data.dob || 'N/A';
+            document.getElementById('v_qualification').textContent = data.qualification || 'N/A';
+            
+            document.getElementById('v_phone').textContent = data.phone || 'N/A';
+            document.getElementById('v_email').textContent = data.email || 'N/A';
+            document.getElementById('v_address').textContent = data.address || 'N/A';
+            document.getElementById('v_city').textContent = data.city || 'N/A';
+            document.getElementById('v_district').textContent = data.district || 'N/A';
+            document.getElementById('v_pincode').textContent = data.pincode || 'N/A';
+            
+            document.getElementById('v_photo').src = (data.photo_path && data.photo_path.trim() !== '') ? '../' + data.photo_path : '../images/placeholder.jpg';
+            
+            const docLink = document.getElementById('v_idproof_link');
+            if(data.id_proof_path && data.id_proof_path.trim() !== '') {
+                docLink.href = '../' + data.id_proof_path;
+                docLink.style.display = 'inline-block';
+            } else {
+                docLink.style.display = 'none';
+            }
+            
+            viewModal.show();
         }
 
         document.getElementById('studentForm').onsubmit = async (e) => {
             e.preventDefault();
+            
+            const isAdding = !document.getElementById('student_db_id').value;
+            const dobInput = document.getElementById('f_dob');
+            const joiningDateInput = document.getElementById('f_joining');
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Cross-verify Age
+            const dob = new Date(dobInput.value);
+            const ageLimit = new Date(today.getFullYear() - 7, today.getMonth(), today.getDate());
+            if (dob > ageLimit) {
+                alert("Student must be at least 7 years old to enroll.");
+                dobInput.focus();
+                return;
+            }
+
+            // Cross-verify joining date for NEW students only
+            if (isAdding) {
+                const joiningDate = new Date(joiningDateInput.value);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                if (joiningDate < tomorrow) {
+                    alert("Joining date must be a future date (starting from tomorrow).");
+                    joiningDateInput.focus();
+                    return;
+                }
+            }
+            
             const formData = new FormData(e.target);
             try {
                 const response = await fetch('save_student.php', {

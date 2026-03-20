@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-// checkAdminLogin(); // Temporarily disabled by config.php, but good for future
+checkAdminLogin(); // Temporarily disabled by config.php, but good for future
 
 header('Content-Type: application/json');
 
@@ -123,8 +123,8 @@ if ($id > 0) {
     $photoPath = $photoResult['success'] ? $photoResult['path'] : '';
     $idProofPath = $idProofResult['success'] ? $idProofResult['path'] : '';
 
-    $sql = "INSERT INTO students (student_id, name, father_name, mother_name, gender, dob, email, phone, address, city, district, pincode, course, duration, time_slot, joining_date, end_date, qualification, photo_path, id_proof_path) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO students (student_id, name, father_name, mother_name, gender, dob, email, phone, address, city, district, pincode, course, duration, time_slot, joining_date, end_date, qualification, photo_path, id_proof_path, verification) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Successful')";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssssssssssssssss", 
