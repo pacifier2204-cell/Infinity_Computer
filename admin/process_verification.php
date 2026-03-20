@@ -34,10 +34,22 @@ $stmt = $conn->prepare("UPDATE students SET verification = ? WHERE id = ?");
 $stmt->bind_param("si", $status, $id);
 
 if ($stmt->execute()) {
-    // Send Email Notification
-    sendVerificationEmail($student['email'], $student['student_id'], $status);
+    // Send Email Notification and capture result
+    $emailResult = sendVerificationEmail($student['email'], $student['student_id'], $student['name'], $status);
     
-    echo json_encode(['success' => true, 'message' => "Student enrollment " . ($status === 'Successful' ? 'verified' : 'rejected') . " successfully."]);
+    $actionText = ($status === 'Successful' ? 'verified' : 'rejected');
+    $response = [
+        'success' => true, 
+        'message' => "Student enrollment {$actionText} successfully.",
+        'email_status' => $emailResult['success'] ? 'sent' : 'failed',
+    ];
+    
+    // If email failed, add warning so admin is notified
+    if (!$emailResult['success']) {
+        $response['email_warning'] = $emailResult['reason'];
+    }
+    
+    echo json_encode($response);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database update failed.']);
 }
@@ -45,24 +57,45 @@ $stmt->close();
 
 /**
  * Send Email Notification using mail()
+ * Returns array with 'success' (bool) and 'reason' (string) on failure
  */
-function sendVerificationEmail($to, $sid, $status) {
+function sendVerificationEmail($to, $sid, $studentName, $status) {
+    // 1. Validate email format
+    if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        $reason = "Invalid or empty email address: '{$to}' for student {$sid}";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be sent — invalid email address ({$to})."];
+    }
+
+    // 2. Check if domain has MX records (basic deliverability check)
+    $domain = substr(strrchr($to, "@"), 1);
+    if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
+        $reason = "Email domain '{$domain}' has no MX/A records for student {$sid}";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be sent — the domain '{$domain}' does not appear to accept emails."];
+    }
+
+    // 3. Build email content
     if ($status === 'Successful') {
         $subject = "Enrollment Approved - Infinity Computer";
-        $message = "Dear Student,\n\nYour enrollment has been successfully verified. You are now officially enrolled.\n\nStudent ID: $sid\n\nFor any further assistance, please contact us.\n\nBest Regards,\nInfinity Computer Team";
+        $message = "Dear {$studentName},\n\nYour enrollment has been successfully verified. You are now officially enrolled.\n\nStudent ID: $sid\n\nFor any further assistance, please contact us.\n\nBest Regards,\nInfinity Computer Team";
     } else {
         $subject = "Enrollment Application Update - Infinity Computer";
-        $message = "Dear Student,\n\nWe regret to inform you that your enrollment application has been rejected after verification.\n\nFor further assistance, please contact support.\n\nBest Regards,\nInfinity Computer Team";
+        $message = "Dear {$studentName},\n\nWe regret to inform you that your enrollment application has been rejected after verification.\n\nFor further assistance, please contact support.\n\nBest Regards,\nInfinity Computer Team";
     }
 
     $headers = "From: noreply@infinitycomputer.com\r\n";
     $headers .= "Reply-To: noreply@infinitycomputer.com\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    // Use @ to suppress errors if mail server is not configured on local env
-    $mailSent = mail($to, $subject, $message, $headers);
+    // 4. Attempt to send
+    $mailSent = @mail($to, $subject, $message, $headers);
 
     if (!$mailSent) {
-        error_log("Mail failed for student ID: $sid");
+        $reason = "PHP mail() failed for student {$sid} (email: {$to})";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be delivered to {$to}. The mail server may not be configured or the address may be unreachable."];
     }
+
+    return ['success' => true];
 }

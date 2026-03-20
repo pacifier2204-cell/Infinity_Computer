@@ -38,10 +38,22 @@ if ($status === 'Verified') {
 $stmt->bind_param("si", $status, $id);
 
 if ($stmt->execute()) {
-    // Send Email Notification
-    sendLaptopStatusEmail($laptop['email'], $laptop['owner_name'], $laptop['laptop_company'] . ' ' . $laptop['laptop_model'], $status);
+    // Send Email Notification and capture result
+    $emailResult = sendLaptopStatusEmail($laptop['email'], $laptop['owner_name'], $laptop['laptop_company'] . ' ' . $laptop['laptop_model'], $status);
     
-    echo json_encode(['success' => true, 'message' => "Laptop request " . ($status === 'Verified' ? 'verified' : 'rejected') . " successfully."]);
+    $actionText = ($status === 'Verified' ? 'verified' : 'rejected');
+    $response = [
+        'success' => true, 
+        'message' => "Laptop request {$actionText} successfully.",
+        'email_status' => $emailResult['success'] ? 'sent' : 'failed',
+    ];
+    
+    // If email failed, add warning so admin is notified
+    if (!$emailResult['success']) {
+        $response['email_warning'] = $emailResult['reason'];
+    }
+    
+    echo json_encode($response);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database update failed.']);
 }
@@ -49,8 +61,25 @@ $stmt->close();
 
 /**
  * Send Email Notification using mail()
+ * Returns array with 'success' (bool) and 'reason' (string) on failure
  */
 function sendLaptopStatusEmail($to, $owner, $laptopName, $status) {
+    // 1. Validate email format
+    if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        $reason = "Invalid or empty email address: '{$to}' for owner {$owner}";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be sent — invalid email address ({$to})."];
+    }
+
+    // 2. Check if domain has MX records (basic deliverability check)
+    $domain = substr(strrchr($to, "@"), 1);
+    if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
+        $reason = "Email domain '{$domain}' has no MX/A records for owner {$owner}";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be sent — the domain '{$domain}' does not appear to accept emails."];
+    }
+
+    // 3. Build email content
     if ($status === 'Verified') {
         $subject = "Laptop Request Verified - Infinity Computer";
         $message = "Dear $owner,\n\nYour second-hand laptop request has been successfully verified. \n\nLaptop: $laptopName\n\nInstructions: Please visit Infinity Computer Shop in person with the same laptop and your address proof document for a physical inspection. Final price will be decided after physical inspection.\n\nShop Visit Details: Please visit our shop between 10 AM to 6 PM on any working day.\n\nBest Regards,\nInfinity Computer Team";
@@ -63,6 +92,15 @@ function sendLaptopStatusEmail($to, $owner, $laptopName, $status) {
     $headers .= "Reply-To: noreply@infinitycomputer.com\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    @mail($to, $subject, $message, $headers);
+    // 4. Attempt to send
+    $mailSent = @mail($to, $subject, $message, $headers);
+
+    if (!$mailSent) {
+        $reason = "PHP mail() failed for owner {$owner} (email: {$to})";
+        error_log("Email Notification Failed - " . $reason);
+        return ['success' => false, 'reason' => "Email could not be delivered to {$to}. The mail server may not be configured or the address may be unreachable."];
+    }
+
+    return ['success' => true];
 }
 ?>

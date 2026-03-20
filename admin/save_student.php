@@ -109,10 +109,16 @@ if ($id > 0) {
     $stmt->bind_param($types, ...$params);
 } else {
     // INSERT (NEW STUDENT)
-    // Generate Student ID
-    $res = $conn->query("SELECT id FROM students ORDER BY id DESC LIMIT 1");
-    $lastId = ($res && $res->num_rows > 0) ? (int)$res->fetch_assoc()['id'] : 0;
-    $student_id = "ICC" . str_pad($lastId + 1, 4, "0", STR_PAD_LEFT);
+    // Generate Student ID based on last existing student_id in DB
+    // This ensures IDs continue from the actual last record, not from auto-increment gaps
+    $res = $conn->query("SELECT student_id FROM students ORDER BY student_id DESC LIMIT 1");
+    $lastNum = 0;
+    if ($res && $res->num_rows > 0) {
+        $row = $res->fetch_assoc();
+        // Extract numeric part from student_id (e.g., "ICC0005" -> 5)
+        $lastNum = (int)preg_replace('/[^0-9]/', '', $row['student_id']);
+    }
+    $student_id = "ICC" . str_pad($lastNum + 1, 4, "0", STR_PAD_LEFT);
 
     $photoPath = $photoResult['success'] ? $photoResult['path'] : '';
     $idProofPath = $idProofResult['success'] ? $idProofResult['path'] : '';

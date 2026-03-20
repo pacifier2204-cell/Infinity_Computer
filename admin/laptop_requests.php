@@ -282,7 +282,14 @@ $result = $stmt->get_result();
                 });
                 const result = await response.json();
                 if (result.success) {
-                    alert(result.message);
+                    let msg = result.message;
+                    // Notify admin if email delivery failed
+                    if (result.email_status === 'failed') {
+                        msg += '\n\n⚠️ EMAIL WARNING: ' + (result.email_warning || 'Email notification could not be sent to the user.');
+                    } else {
+                        msg += '\n\n✅ Email notification sent successfully.';
+                    }
+                    alert(msg);
                     location.reload();
                 } else {
                     alert('Error: ' + result.message);

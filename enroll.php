@@ -127,15 +127,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photoPath = $photoResult['path'];
     $idProofPath = $idProofResult['path'];
 
-    // Generate Unique Student ID
-    $result = $conn->query("SELECT id FROM students ORDER BY id DESC LIMIT 1");
-    $lastId = 0;
+    // Generate Unique Student ID based on last existing student_id in DB
+    // This ensures IDs continue from the actual last record, not from auto-increment gaps
+    $result = $conn->query("SELECT student_id FROM students ORDER BY student_id DESC LIMIT 1");
+    $lastNum = 0;
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $lastId = (int)$row['id'];
+        // Extract numeric part from student_id (e.g., "ICC0005" -> 5)
+        $lastNum = (int)preg_replace('/[^0-9]/', '', $row['student_id']);
     }
-    $nextId = $lastId + 1;
-    $studentId = "ICC" . str_pad($nextId, 4, "0", STR_PAD_LEFT);
+    $nextNum = $lastNum + 1;
+    $studentId = "ICC" . str_pad($nextNum, 4, "0", STR_PAD_LEFT);
 
     // Duration mapping
     $durations = [

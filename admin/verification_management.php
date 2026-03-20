@@ -240,7 +240,14 @@ $courses = ["TALLY", "DTP", "BASIC", "Web Designing", "C Programming", "C++ Prog
                 });
                 const result = await response.json();
                 if (result.success) {
-                    alert(result.message);
+                    let msg = result.message;
+                    // Notify admin if email delivery failed
+                    if (result.email_status === 'failed') {
+                        msg += '\n\n⚠️ EMAIL WARNING: ' + (result.email_warning || 'Email notification could not be sent to the student.');
+                    } else {
+                        msg += '\n\n✅ Email notification sent successfully.';
+                    }
+                    alert(msg);
                     location.reload();
                 } else {
                     alert('Error: ' + result.message);
