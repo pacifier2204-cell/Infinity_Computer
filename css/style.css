@@ -250,7 +250,14 @@ img {
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: 10px;
-  padding: 0.45rem 0.55rem;
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.88rem;
+  gap: 0.35rem;
+  flex-shrink: 0;
 }
 
 .hero {
@@ -831,6 +838,11 @@ textarea {
   padding: 0.9rem 0 1.4rem;
   color: #5e6b7d;
   font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
 /* ── Footer Business Info Section ── */
@@ -1786,4 +1798,470 @@ select:focus-visible {
   text-transform: uppercase;
   letter-spacing: 2px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ═══════════════════════════════════════════════════
+   COMPREHENSIVE FULL-SITE RESPONSIVE OVERHAUL
+   Covers every page: index, about, services, products,
+   education, contact, buyback, enrollment, profile
+   ═══════════════════════════════════════════════════ */
+
+/* ── Prevent horizontal scroll on all screens ── */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* ── Header: always prevent overflow ── */
+.header-inner {
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.brand {
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: visible;
+}
+
+/* ── Tagline in brand: hide on very small screens if needed ── */
+.brand-tagline {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Bank table: responsive stacking ── */
+.bank-details-table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 1060px (Tablet/Large Mobile)
+   ───────────────────────────────────────── */
+@media (max-width: 1060px) {
+
+  /* Brand logo shrink */
+  .brand-logo {
+    height: 38px !important;
+  }
+
+  /* Brand text size */
+  .brand-text {
+    font-size: 1.25rem !important;
+  }
+
+  /* Hide tagline on mid-sizes if nav is cramped */
+  .brand span[style*="0.65rem"] {
+    font-size: 0.58rem !important;
+  }
+
+  /* Hero image: hide on tablet when nav is open (save space) */
+  .hero-inner {
+    gap: 1.5rem;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 900px (Small Tablet)
+   ───────────────────────────────────────── */
+@media (max-width: 900px) {
+
+  /* Products page: partner-grid 2cols -> 1col */
+  .partner-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Products pcard-grid: min 280px */
+  .pcard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Products logo-grid */
+  .logo-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 768px (Mobile Landscape / Tablet Portrait)
+   ───────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Hero image: hide on small mobile to save space */
+  .hero-image-wrap {
+    display: none;
+  }
+
+  /* Hero text center */
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: 2.5rem 0;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  /* Section spacing tightened */
+  .section {
+    padding: 2.5rem 0;
+  }
+
+  /* page-hero padding */
+  .page-hero-inner {
+    padding: 2rem 0;
+  }
+
+  /* Grid-2: single column */
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* About card images: shorter on mobile */
+  .card [style*="height: 220px"],
+  .card [style*="height: 180px"] {
+    height: 160px !important;
+  }
+
+  /* CTA box */
+  .cta-box {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .cta-box .actions {
+    justify-content: center;
+  }
+
+  /* Contact grid */
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* KPI row on products page */
+  .kpi-row {
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .kpi {
+    min-width: 130px !important;
+    padding: 1rem 1.5rem !important;
+  }
+
+  /* Partner block padding */
+  .partner-block {
+    padding: 1.75rem !important;
+  }
+
+  /* pcard min-width override for mobile */
+  .pcard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-top: 2rem !important;
+  }
+
+  .pcard {
+    padding: 1.75rem !important;
+  }
+
+  /* Logo grid: 2 cols on mobile */
+  .logo-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  /* Bank details table: side-scroll wrapper */
+  .bank-details-table {
+    font-size: 0.78rem;
+  }
+
+  .bank-details-table .bank-label {
+    width: 90px !important;
+    font-size: 0.72rem !important;
+  }
+
+  /* Review grid: 1 col */
+  .review-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Footer grid */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Scroller label hide on mobile */
+  .scroller-label {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 600px (Small Mobile)
+   ───────────────────────────────────────── */
+@media (max-width: 600px) {
+
+  /* Section heading: smaller */
+  .section-title {
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
+  }
+
+  /* Hero h1 tighter */
+  .hero h1 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  /* CTA box: stacked */
+  .cta-box {
+    padding: 1rem;
+  }
+
+  /* Contact grid stacked */
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Map iframe height */
+  .map-wrap iframe {
+    height: 240px;
+  }
+
+  /* Clients grid stay at 2col */
+  .clients-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  /* Partner pills wrap tightly */
+  .partners-pill-list {
+    gap: 8px !important;
+    padding: 12px 0 !important;
+  }
+
+  .partner-pill {
+    padding: 7px 14px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Bank table: vertical stack on tiny screens */
+  .bank-details-table,
+  .bank-details-table tbody,
+  .bank-details-table tr,
+  .bank-details-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .bank-details-table tr {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+
+  .bank-details-table td {
+    border-bottom: none !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  .bank-details-table .bank-label {
+    width: auto !important;
+    font-size: 0.7rem !important;
+    color: var(--muted);
+  }
+
+  /* pcard min-width override */
+  .pcard {
+    padding: 1.25rem !important;
+  }
+
+  /* pcard header */
+  .pcard-header {
+    gap: 1rem !important;
+  }
+
+  /* pcard icon size */
+  .pcard-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  /* partner-block logos */
+  .partner-logos img {
+    height: 24px !important;
+  }
+
+  /* Education page table overflow */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 480px (Small Phone)
+   ───────────────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* Container padding */
+  .container {
+    width: calc(100% - 1.5rem);
+  }
+
+  /* Brand: smaller logo+text */
+  .brand-logo {
+    height: 30px !important;
+  }
+
+  .brand-text {
+    font-size: 1.05rem !important;
+  }
+
+  /* Hide tagline on very small phones */
+  .brand span[style*="0.65rem"] {
+    display: none;
+  }
+
+  /* Footer grid: full single column */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .footer-list {
+    justify-items: center;
+  }
+
+  .socials {
+    justify-content: center;
+  }
+
+  /* KPI row wrap */
+  .kpi-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .kpi {
+    min-width: unset !important;
+    width: 100%;
+    padding: 0.9rem 1rem !important;
+    border-radius: 14px !important;
+  }
+
+  /* Hero actions full width */
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .actions .btn {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  /* Clients grid: 1 col on tiny phones */
+  .clients-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .client-logo-wrap {
+    width: 55px;
+    height: 55px;
+    padding: 7px;
+  }
+
+  .client-name {
+    font-size: 0.75rem;
+  }
+
+  /* Logo grid: 2 col */
+  .logo-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Section padding */
+  .section {
+    padding: 2rem 0;
+  }
+
+  /* Page hero */
+  .page-hero-inner {
+    padding: 1.5rem 0;
+  }
+
+  /* Footer business grid already handled by main media query */
+
+  /* Scroller track items smaller */
+  .scroller-item {
+    padding: 0.5rem 1rem !important;
+  }
+
+  .scroller-logo {
+    height: 20px !important;
+  }
+}
+
+/* ─────────────────────────────────────────
+   BREAKPOINT: 360px (Tiny Phones)
+   ───────────────────────────────────────── */
+@media (max-width: 360px) {
+  .brand-logo {
+    height: 26px !important;
+  }
+
+  .brand-text {
+    font-size: 0.95rem !important;
+  }
+
+  .brand span[style*="0.65rem"] {
+    display: none;
+  }
+
+  .nav-toggle {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.4rem, 8vw, 1.8rem);
+  }
+
+  .section-title {
+    font-size: clamp(1.2rem, 6vw, 1.5rem);
+  }
+
+  .btn {
+    font-size: 0.88rem;
+    padding: 0.58rem 0.9rem;
+  }
+
+  .clients-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .client-logo-wrap {
+    width: 46px;
+    height: 46px;
+    padding: 6px;
+  }
+
+  .client-name {
+    font-size: 0.68rem;
+  }
+
+  .client-category {
+    font-size: 0.6rem;
+  }
 }

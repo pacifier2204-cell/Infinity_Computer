@@ -1,17 +1,24 @@
 /* Profile CSS - Premium Corporate Brochure Style for Infinity Computer */
 
 :root {
-  --profile-primary: #1e3a8a; /* Deep Navy Blue */
-  --profile-secondary: #c09b5a; /* Gold/Brass accent */
+  --profile-primary: #1e3a8a;
+  /* Deep Navy Blue */
+  --profile-secondary: #c09b5a;
+  /* Gold/Brass accent */
   --profile-text: #333333;
   --profile-text-light: #64748b;
-  --profile-bg: #e2e8f0; /* Gray desktop background */
-  --profile-page: #ffffff; /* White paper sheet */
+  --profile-bg: #e2e8f0;
+  /* Gray desktop background */
+  --profile-page: #ffffff;
+  /* White paper sheet */
   --profile-dark: #0f172a;
-  --profile-accent: #fb2a71; /* Logo Magenta */
-  --profile-shadow: 0 15px 50px rgba(0,0,0,0.15);
+  --profile-accent: #fb2a71;
+  /* Logo Magenta */
+  --profile-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
   --profile-radius: 4px;
   --page-width: 1000px;
+  --page-height: 1414px;
+  /* Exact A4 aspect ratio helper */
   --page-padding: 60px;
 }
 
@@ -41,15 +48,18 @@ img {
 /* Brochure Page Wrapper */
 .page {
   width: var(--page-width);
+  height: var(--page-height);
+  /* Ensure perfect A4 ratio on every page */
   background: var(--profile-page);
   box-shadow: var(--profile-shadow);
-  margin-bottom: 40px;
+  margin: 0 auto 40px auto;
+  /* Centers page and adds bottom margin */
   position: relative;
   padding: var(--page-padding);
   display: flex;
   flex-direction: column;
-  min-height: 1414px; /* A4 Ratio approx */
-  overflow: hidden; /* Prevent watermark from spilling over edges */
+  overflow: hidden;
+  /* Restrict content strictly to page bounds, prevents watermark from spilling */
 }
 
 /* Infinity Computer Watermark for Brochure Pages */
@@ -62,7 +72,8 @@ img {
   font-size: 7rem;
   font-weight: 900;
   color: var(--profile-primary);
-  opacity: 0.08; /* Increased opacity for darker watermark */
+  opacity: 0.08;
+  /* Increased opacity for darker watermark */
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
@@ -210,36 +221,180 @@ img {
   border-radius: 8px;
 }
 
-/* Print Optimization */
+/* Brand Typography from Main Theme */
+.brand-text {
+  font-size: 1.85rem;
+  font-weight: 850;
+  letter-spacing: -0.8px;
+  background: linear-gradient(90deg, #fb2a71 0%, #ff0000 50%, #fb2a71 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fb2a71;
+  white-space: nowrap;
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.text-accent {
+  background: linear-gradient(135deg, #111111 0%, #333333 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #111111;
+  /* Fallback */
+  font-weight: 700;
+  margin-left: 3px;
+  display: inline-block;
+}
+
+/* Print Optimization - Strictly A4 PDF Output */
+@page {
+  size: A4;
+  margin: 0;
+  /* Remove default browser print headers and footers */
+}
+
 @media print {
+
+  html,
   body {
-    background: #fff;
-    padding: 0;
-  }
-  .page {
+    background: #ffffff !important;
+    padding: 0 !important;
     margin: 0 !important;
-    box-shadow: none !important;
-    page-break-after: always;
-    width: 100% !important;
-    padding: 2cm !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    /* Force background colors */
   }
+
+  .page {
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    width: 1000px !important;
+    height: 1405px !important;
+    /* Reduced strictly by a few pixels to avoid fractional pixel overflow causing blank pages */
+    max-height: 1405px !important;
+    padding: var(--page-padding) !important;
+    overflow: hidden !important;
+  }
+
+  .page:last-of-type {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
   .page-footer-bar {
-    position: fixed;
-    bottom: 0;
+    position: absolute !important;
+    /* Fix overlapping issues across printed pages by keeping it relative to its parent container */
+    bottom: 0 !important;
   }
 }
 
+/* ── Responsive Utility Classes ── */
+.profile-grid-2,
+.profile-grid-3,
+.profile-flex-3 {
+  display: grid;
+  gap: 30px;
+}
+
+.profile-grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.profile-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.profile-flex-3 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.profile-flex-3>div {
+  width: calc(33.33% - 20px);
+}
+
 /* Responsive (Screen only) */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1060px) {
   .page {
     width: 95%;
-    padding: 30px;
+    padding: 40px;
     min-height: auto;
+    height: auto !important;
   }
+
   .profile-hero {
-    margin: -30px -30px 0 -30px;
+    margin: -40px -40px 0 -40px;
+    padding: 40px;
   }
-  .about-grid, .service-cards, .process-steps {
+
+  .about-grid,
+  .service-cards {
     grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .profile-grid-2,
+  .profile-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .profile-flex-3>div {
+    width: 100% !important;
+  }
+
+  .page {
+    padding: 30px 20px;
+    margin-bottom: 25px;
+  }
+
+  .profile-hero {
+    margin: -30px -20px 0 -20px;
+    padding: 30px 20px;
+  }
+
+  .page-footer-bar {
+    padding: 0 20px;
+    font-size: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page {
+    padding: 25px 15px 60px;
+  }
+
+  .profile-hero {
+    margin: -25px -15px 0 -15px;
+    padding: 25px 15px;
+  }
+
+  .brand-text {
+    font-size: 1.3rem;
+  }
+
+  .page-footer-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 5px;
+    text-align: center;
   }
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -163,12 +163,14 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Infinity Computer Home">
-        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo">
-        <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo" style="height: 48px; width: auto; object-fit: contain;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span class="text-accent">Computer</span></span>
+          <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think before you click</span>
+        </div>
       </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false"
-        aria-label="Open menu">Menu</button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg><span>Menu</span></button>
       <nav class="main-nav" data-main-nav aria-label="Main Navigation">
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -203,7 +205,7 @@
           <h1 style="margin: 0; font-size: 28px; color: #0d6efd;">Student Enrollment Form</h1>
           <a href="search.html"
             style="color: #0d6efd; font-weight: 600; text-decoration: none; border-bottom: 2px solid #0d6efd; width: fit-content;">Search
-            Existing Record →</a>
+            Existing Record â†’</a>
         </div>
         <p style="color: #6c757d; margin-bottom: 40px;">Professional IT skills development and computer training
           enrollment at Infinity Computer.</p>
@@ -304,10 +306,10 @@
                 <label for="course">Select Course *</label>
                 <select id="course" name="course" class="form-control" required>
                   <option value="">Choose a course</option>
-                  <option value="TALLY">TALLY (1 ½ Months)</option>
+                  <option value="TALLY">TALLY (1 Â½ Months)</option>
                   <option value="DTP">D.T.P. (Desktop Publishing)</option>
-                  <option value="BASIC">BASIC (1 ½ Months)</option>
-                  <option value="Web Designing">Web Designing (1 ½ Months)</option>
+                  <option value="BASIC">BASIC (1 Â½ Months)</option>
+                  <option value="Web Designing">Web Designing (1 Â½ Months)</option>
                   <option value="C Programming">C Programming</option>
                   <option value="C++ Programming">C++ Programming</option>
                   <option value="Hardware Networking">Hardware & Networking</option>
@@ -435,7 +437,7 @@
           <li><span>Computer Programs</span></li>
           <li><span>SAP Courses</span></li>
           <li><span>Skill Development</span></li>
-          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, Shreeji Darshan Complex, Zadeshwar,
+          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex, Zadeshwar,
               Bharuch</a></li>
         </ul>
       </section>
@@ -443,6 +445,9 @@
         <h3 class="footer-title">Contact</h3>
         <ul class="footer-list">
           <li><a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
+          <li style="margin-top: 5px;"><strong style="font-size: 0.85rem; color: var(--primary);">Digital Support / WhatsApp Bot:</strong> <br><a href="https://wa.me/919408306399">9408306399</a></li>
+          <li><strong style="font-size: 0.85rem; color: var(--primary);">Bulk Corporate Enquiry:</strong> <br><a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
+          <li><strong style="font-size: 0.85rem; color: var(--primary);">Account:</strong> <br><a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a></li>
           <li><a href="tel:02642229070">02642-229070</a></li>
           <li><a href="tel:8690514340">8690514340</a></li>
           <li><span>Mon to Sat | 10:00 AM - 8:00 PM</span></li>
@@ -511,9 +516,9 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <div class="global-presence" style="margin-bottom: 10px; opacity: 0.8;"><i class="fas fa-globe"
+      <div class="global-presence" style="opacity: 0.8;"><i class="fas fa-globe"
           style="margin-right: 8px; color: #fb2a71;"></i>Our Global Presence: UK | UAE | India</div>
-      <small>Copyright <span data-current-year>2026</span> Infinity Computer. All rights reserved.</small>
+      <small>Copyright 2026 Infinity Computer. All rights reserved.</small>
     </div>
   </footer>
 
@@ -640,3 +645,5 @@
 </body>
 
 </html>
+
+
