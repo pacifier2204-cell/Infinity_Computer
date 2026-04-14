@@ -39,12 +39,13 @@ $stmt->bind_param("si", $status, $id);
 
 if ($stmt->execute()) {
     // Send Email Notification and capture result
-    $emailResult = sendLaptopStatusEmail($laptop['email'], $laptop['owner_name'], $laptop['laptop_company'] . ' ' . $laptop['laptop_model'], $status);
+    $gadgetType = $laptop['gadget_type'] ?: 'Gadget';
+    $emailResult = sendLaptopStatusEmail($laptop['email'], $laptop['owner_name'], $laptop['laptop_company'] . ' ' . $laptop['laptop_model'], $status, $gadgetType);
     
     $actionText = ($status === 'Verified' ? 'verified' : 'rejected');
     $response = [
         'success' => true, 
-        'message' => "Laptop request {$actionText} successfully.",
+        'message' => "{$gadgetType} request {$actionText} successfully.",
         'email_status' => $emailResult['success'] ? 'sent' : 'failed',
     ];
     
@@ -63,7 +64,7 @@ $stmt->close();
  * Send Email Notification using mail()
  * Returns array with 'success' (bool) and 'reason' (string) on failure
  */
-function sendLaptopStatusEmail($to, $owner, $laptopName, $status) {
+function sendLaptopStatusEmail($to, $owner, $laptopName, $status, $gadgetType) {
     // 1. Validate email format
     if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
         $reason = "Invalid or empty email address: '{$to}' for owner {$owner}";
@@ -81,11 +82,11 @@ function sendLaptopStatusEmail($to, $owner, $laptopName, $status) {
 
     // 3. Build email content
     if ($status === 'Verified') {
-        $subject = "Laptop Request Verified - Infinity Computer";
-        $message = "Dear $owner,\n\nYour second-hand laptop request has been successfully verified. \n\nLaptop: $laptopName\n\nInstructions: Please visit Infinity Computer Shop in person with the same laptop and your address proof document for a physical inspection. Final price will be decided after physical inspection.\n\nShop Visit Details: Please visit our shop between 10 AM to 6 PM on any working day.\n\nBest Regards,\nInfinity Computer Team";
+        $subject = "$gadgetType Request Verified - Infinity Computer";
+        $message = "Dear $owner,\n\nYour second-hand $gadgetType request has been successfully verified. \n\n$gadgetType: $laptopName\n\nInstructions: Please visit Infinity Computer Shop in person with the same $gadgetType and your address proof document for a physical inspection. Final price will be decided after physical inspection.\n\nShop Visit Details: Please visit our shop between 10 AM to 6 PM on any working day.\n\nBest Regards,\nInfinity Computer Team";
     } else {
-        $subject = "Laptop Request Update - Infinity Computer";
-        $message = "Dear $owner,\n\nWe regret to inform you that your second-hand laptop request (Laptop: $laptopName) has been rejected.\n\nBased on the provided details, we cannot offer a buyback at this time. For further assistance, please contact support.\n\nBest Regards,\nInfinity Computer Team";
+        $subject = "$gadgetType Request Update - Infinity Computer";
+        $message = "Dear $owner,\n\nWe regret to inform you that your second-hand $gadgetType request ($gadgetType: $laptopName) has been rejected.\n\nBased on the provided details, we cannot offer a buyback at this time. For further assistance, please contact support.\n\nBest Regards,\nInfinity Computer Team";
     }
 
     $headers = "From: noreply@infinitycomputer.com\r\n";

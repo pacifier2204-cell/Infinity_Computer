@@ -14,7 +14,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laptop Buyback Requests - Infinity Computer</title>
+    <title>Buyback Gadget Requests - Infinity Computer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
@@ -160,7 +160,7 @@ $result = $stmt->get_result();
 
     <div class="container-fluid dashboard-container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold m-0">Second Hand Laptop Requests</h4>
+            <h4 class="fw-bold m-0">Buyback Gadget Requests</h4>
             <div class="badge bg-dark rounded-pill px-3 py-2">System Version 2.1</div>
         </div>
 
@@ -189,7 +189,7 @@ $result = $stmt->get_result();
                         <tr>
                             <th>ID</th>
                             <th>Owner Details</th>
-                            <th>Laptop Info</th>
+                            <th>Gadget Info</th>
                             <th>Price & Specs</th>
                             <th>Documents/Photos</th>
                             <th>Actions</th>
@@ -207,6 +207,7 @@ $result = $stmt->get_result();
                                         <div class="small text-muted mt-1"><i class="fa-solid fa-map-marker-alt me-1"></i><?php echo htmlspecialchars($row['address']); ?></div>
                                     </td>
                                     <td>
+                                        <div class="badge bg-primary mb-1"><?php echo htmlspecialchars($row['gadget_type'] ?: 'Laptop'); ?></div>
                                         <div class="fw-bold"><?php echo htmlspecialchars($row['laptop_company']); ?></div>
                                         <div class="small">Model: <?php echo htmlspecialchars($row['laptop_model']); ?></div>
                                         <div class="small text-muted">SN: <?php echo htmlspecialchars($row['serial_number']); ?></div>
@@ -272,7 +273,7 @@ $result = $stmt->get_result();
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold">Edit Laptop Request</h5>
+                    <h5 class="modal-title fw-bold">Edit Gadget Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="laptopForm" enctype="multipart/form-data">
@@ -296,16 +297,26 @@ $result = $stmt->get_result();
                                 <label class="form-label small fw-bold">Address *</label>
                                 <textarea name="address" id="l_address" class="form-control" rows="2" required></textarea>
                             </div>
-                            <h6 class="fw-bold text-primary border-bottom pb-2 mt-4">Laptop Details</h6>
-                            <div class="col-md-4">
+                            <h6 class="fw-bold text-primary border-bottom pb-2 mt-4">Gadget Details</h6>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Gadget Type *</label>
+                                <select name="gadget_type" id="l_type" class="form-select" required>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Desktop">Desktop</option>
+                                    <option value="Printer">Printer</option>
+                                    <option value="CCTV">CCTV</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
                                 <label class="form-label small fw-bold">Company *</label>
                                 <input type="text" name="laptop_company" id="l_company" class="form-control" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label small fw-bold">Model *</label>
                                 <input type="text" name="laptop_model" id="l_model" class="form-control" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label small fw-bold">Serial Number *</label>
                                 <input type="text" name="serial_number" id="l_serial" class="form-control" required>
                             </div>
@@ -322,7 +333,7 @@ $result = $stmt->get_result();
                                 <input type="file" name="document_path" class="form-control" accept=".pdf">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Laptop Photos <small class="text-muted fw-normal">(Optional to override all)</small></label>
+                                <label class="form-label small fw-bold">Gadget Photos <small class="text-muted fw-normal">(Optional to override all)</small></label>
                                 <input type="file" name="laptop_images[]" class="form-control" accept="image/*" multiple>
                             </div>
                         </div>
@@ -341,7 +352,7 @@ $result = $stmt->get_result();
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold">Laptop Details <span id="v_l_id" class="text-muted ms-2 fw-normal" style="font-size: 0.9rem;"></span></h5>
+                    <h5 class="modal-title fw-bold">Gadget Details <span id="v_l_id" class="text-muted ms-2 fw-normal" style="font-size: 0.9rem;"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4">
@@ -356,9 +367,10 @@ $result = $stmt->get_result();
                             </table>
                         </div>
                         <div class="col-md-6">
-                            <h6 class="fw-bold text-primary mb-3 border-bottom pb-2">Laptop Specifications</h6>
+                            <h6 class="fw-bold text-primary mb-3 border-bottom pb-2">Gadget Specifications</h6>
                             <table class="table table-sm table-borderless">
-                                <tr><th class="text-muted" style="width: 100px;">Company:</th><td id="v_l_company"></td></tr>
+                                <tr><th class="text-muted" style="width: 100px;">Gadget:</th><td class="fw-bold" id="v_l_type"></td></tr>
+                                <tr><th class="text-muted">Company:</th><td id="v_l_company"></td></tr>
                                 <tr><th class="text-muted">Model:</th><td id="v_l_model"></td></tr>
                                 <tr><th class="text-muted">Serial No:</th><td id="v_l_serial"></td></tr>
                                 <tr><th class="text-muted">Expected ₹:</th><td class="text-success fw-bold" id="v_l_price"></td></tr>
@@ -404,6 +416,7 @@ $result = $stmt->get_result();
             document.getElementById('l_email').value = data.email;
             document.getElementById('l_mobile').value = data.mobile;
             document.getElementById('l_address').value = data.address;
+            document.getElementById('l_type').value = data.gadget_type || 'Laptop';
             document.getElementById('l_company').value = data.laptop_company;
             document.getElementById('l_model').value = data.laptop_model;
             document.getElementById('l_serial').value = data.serial_number;
@@ -419,6 +432,7 @@ $result = $stmt->get_result();
             document.getElementById('v_l_email').textContent = data.email;
             document.getElementById('v_l_address').textContent = data.address;
             
+            document.getElementById('v_l_type').textContent = data.gadget_type || 'Laptop';
             document.getElementById('v_l_company').textContent = data.laptop_company;
             document.getElementById('v_l_model').textContent = data.laptop_model;
             document.getElementById('v_l_serial').textContent = data.serial_number;

@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
     content="Sell your second-hand laptop to Infinity Computer. Get a fair price for your old hardware.">
-  <title>Sell Your Laptop | Infinity Computer</title>
+  <title>Buyback Gadgets | Infinity Computer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -166,14 +166,25 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Infinity Computer Home" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
-        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo" style="height: 48px; width: auto; object-fit: contain;">
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home"
+        style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo"
+          style="height: 48px; width: auto; object-fit: contain;">
         <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
-          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span class="text-accent">Computer</span></span>
-          <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think before you click</span>
+          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span
+              class="text-accent">Computer</span></span>
+          <span
+            style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think
+            before you click</span>
         </div>
       </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg><span>Menu</span></button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg
+          width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg><span>Menu</span></button>
       <nav class="main-nav" data-main-nav aria-label="Main Navigation">
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -182,7 +193,7 @@
           <li><a href="products.html">Products &amp; Partners</a></li>
           <li><a href="education.html">Education</a></li>
           <li><a href="enrollment.html">Enrollment</a></li>
-          <li><a class="active" href="buybacklaptop.html">Buyback Laptop</a></li>
+          <li><a class="active" href="buybacklaptop.html">Buyback Gadget</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -197,7 +208,7 @@
           <span class="badge" style="background: var(--primary); color: #fff; margin-bottom: 20px;">Buyback
             Program</span>
           <h1 class="text-shimmer" style="-webkit-text-fill-color: #fff; color: #fff; text-align: center;">Sell Your
-            Second-Hand Laptop</h1>
+            Second-Hand Gadgets</h1>
           <p style="color: rgba(255,255,255,0.9); margin-inline: auto;">Turn your old hardware into value. Fill the form
             below and we'll get back to you with a quote.</p>
         </div>
@@ -209,7 +220,7 @@
         <form action="process_laptop_sell.php" method="POST" id="laptopSellForm" enctype="multipart/form-data">
           <!-- Section A: Owner Details -->
           <div class="form-section">
-            <h2 class="form-section-title">Section A â€” Owner Details</h2>
+            <h2 class="form-section-title">Buy Back Gadgets</h2>
             <div class="form-grid">
               <div class="form-group">
                 <label for="ownerName">Full Name of Owner *</label>
@@ -236,12 +247,24 @@
 
           <!-- Section B: Laptop Details -->
           <div class="form-section">
-            <h2 class="form-section-title">Section B â€” Laptop Details</h2>
+            <h2 class="form-section-title">Section B Gadget Details</h2>
             <div class="form-grid">
               <div class="form-group">
-                <label for="laptopCompany">Laptop Company *</label>
+                <label for="gadgetType">Select Gadget *</label>
+                <select id="gadgetType" name="gadgetType" class="form-control" required>
+                  <option value="" disabled selected>Choose a Gadget</option>
+                  <option value="Laptop">Laptop</option>
+                  <option value="Desktop">Desktop</option>
+                  <option value="Printer">Printer</option>
+                  <option value="CCTV">CCTV</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="laptopCompany">Brand / Company *</label>
                 <input type="text" id="laptopCompany" name="laptopCompany" class="form-control"
-                  placeholder="e.g. HP, Dell, Apple" required>
+                  placeholder="e.g. HP, Dell, Apple" list="brandList" required>
+                <datalist id="brandList"></datalist>
               </div>
               <div class="form-group">
                 <label for="laptopModel">Model Name/Number *</label>
@@ -254,21 +277,21 @@
                   placeholder="Enter device serial number" required>
               </div>
               <div class="form-group">
-                <label for="expectedPrice">Expected Selling Price (â‚¹) *</label>
+                <label for="expectedPrice">Expected Selling Price (₹) *</label>
                 <input type="number" id="expectedPrice" name="expectedPrice" class="form-control"
                   placeholder="Price in INR" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="description">Laptop Description</label>
+              <label for="description">Gadget Description</label>
               <textarea id="description" name="description" class="form-control" rows="3"
-                placeholder="Condition, Specs (RAM, Processor, Storage), Issues if any..."></textarea>
+                placeholder="Condition, Specs (RAM, Processor, Storage / Megapixels, Zoom / Pages per minute), Issues if any..."></textarea>
             </div>
           </div>
 
           <!-- Section C: Document Upload -->
           <div class="form-section">
-            <h2 class="form-section-title">Section C â€” Document Upload</h2>
+            <h2 class="form-section-title">Section C Document Upload</h2>
             <div class="file-upload-card">
               <label for="addressProof">Address Proof (Aadhaar or Voter ID) *</label>
               <input type="file" id="addressProof" name="addressProof" class="form-control"
@@ -279,9 +302,9 @@
 
           <!-- Section D: Laptop Photos -->
           <div class="form-section">
-            <h2 class="form-section-title">Section D â€” Laptop Photos</h2>
+            <h2 class="form-section-title">Section D Gadget Photos</h2>
             <div class="file-upload-card">
-              <label for="laptopPhotos">Laptop Photos (Optional but recommended)</label>
+              <label for="laptopPhotos">Gadget Photos (Optional but recommended)</label>
               <input type="file" id="laptopPhotos" name="laptopPhotos[]" class="form-control" accept=".jpg,.jpeg,.png"
                 multiple>
               <small style="color: #64748b;">Upload multiple images showing keyboard, screen, and outer body.</small>
@@ -293,8 +316,8 @@
           <div class="declaration-box">
             <label class="checkbox-item">
               <input type="checkbox" id="legalDeclaration" name="legalDeclaration" required>
-              <span>I declare that I am legal owner of the laptop. I shall be solely responsible for any legal, moral,
-                ethical issue if and when they arise regarding the laptop up to today.</span>
+              <span>I declare that I am legal owner of the gadget. I shall be solely responsible for any legal, moral,
+                ethical issue if and when they arise regarding the gadget up to today.</span>
             </label>
           </div>
 
@@ -326,15 +349,13 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="products.html">Products &amp; Partners</a></li>
           <li><a href="education.html">Education</a></li>
-          <li><a href="buybacklaptop.html">Buyback Laptop</a></li>
+          <li><a href="buybacklaptop.html">Buyback Gadget</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </section>
       <section>
         <h3 class="footer-title">Our Services</h3>
         <ul class="footer-list">
-          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex, Zadeshwar,
-              Bharuch</a></li>
           <li><span>CCTV Systems</span></li>
           <li><span>Printers</span></li>
           <li><span>AMC Plans</span></li>
@@ -343,14 +364,17 @@
       <section>
         <h3 class="footer-title">Contact Info</h3>
         <ul class="footer-list">
-          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex, Zadeshwar, Bharuch</a></li>
+          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex,
+              Zadeshwar, Bharuch</a></li>
           <li><a href="tel:02642229070">02642-229070</a> | <a href="tel:8690514340">8690514340</a></li>
           <li><b>Digital/WA Bot:</b> <a href="https://wa.me/919408306399">9408306399</a></li>
-          <li><a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a> (General)</li>
-          <li><a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a> (Accounts)</li>
+
+          <li><b>Bulk Corporate Enquiry:</b> <a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
+          <li><b>Accounts Enquiry:</b> <a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a></li>
           <li><span>Mon to Sat | 10:00 AM - 8:00 PM</span></li>
           <li style="margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 10px;"><span
-              style="font-size: 11px; font-weight: 700; color: #6c757d; text-transform: uppercase; letter-spacing: 1px;">Global Hubs: UK | UAE | India</span></li>
+              style="font-size: 11px; font-weight: 700; color: #6c757d; text-transform: uppercase; letter-spacing: 1px;">Global
+              Hubs: UK | UAE | India</span></li>
         </ul>
       </section>
     </div>
@@ -415,7 +439,28 @@
       const photoInput = document.getElementById('laptopPhotos');
       const imagePreview = document.getElementById('imagePreview');
       const statusMsg = document.getElementById('statusMsg');
-      const loadingOverlay = document.getElementById('loadingOverlay');
+      const gadgetSelect = document.getElementById('gadgetType');
+      const brandList = document.getElementById('brandList');
+
+      const brands = {
+        'Laptop': ['HP', 'Dell', 'Apple', 'Lenovo', 'Acer', 'Asus', 'MSI', 'Samsung'],
+        'Desktop': ['HP', 'Dell', 'Lenovo', 'Apple', 'Assembled', 'Custom'],
+        'Printer': ['HP', 'Canon', 'Epson', 'Brother', 'Ricoh', 'Samsung'],
+        'CCTV': ['Hikvision', 'Dahua', 'CP Plus', 'Bosch', 'Honeywell', 'D-Link'],
+        'Others': []
+      };
+
+      gadgetSelect.addEventListener('change', function () {
+        const selectedType = this.value;
+        brandList.innerHTML = '';
+        if (brands[selectedType]) {
+          brands[selectedType].forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand;
+            brandList.appendChild(option);
+          });
+        }
+      });
 
       // Multiple Image Preview
       photoInput.addEventListener('change', function () {
@@ -426,7 +471,7 @@
             reader.onload = function (e) {
               const div = document.createElement('div');
               div.className = 'preview-item';
-              div.innerHTML = `<img src="${e.target.result}" alt="Laptop photo">`;
+              div.innerHTML = `<img src="${e.target.result}" alt="Gadget photo">`;
               imagePreview.appendChild(div);
             }
             reader.readAsDataURL(file);
@@ -483,5 +528,3 @@
 </body>
 
 </html>
-
-

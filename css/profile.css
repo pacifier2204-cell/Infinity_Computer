@@ -397,4 +397,30 @@ img {
     gap: 5px;
     text-align: center;
   }
+
+  /* Override desktop-oriented inline styles for mobile */
+  [style*="grid-template-columns: repeat(5, 1fr)"],
+  [style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  [style*="grid-template-columns: repeat(5, 1fr)"]>div,
+  [style*="grid-template-columns: repeat(4, 1fr)"]>div {
+    padding: 15px 10px !important;
+  }
+
+  /* Back cover info grid */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Testimonials and other 2-col grids */
+  .profile-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Certifications/Logos responsiveness */
+  .profile-grid-3[style*="repeat(5, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }

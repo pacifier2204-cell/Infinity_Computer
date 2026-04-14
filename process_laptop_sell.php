@@ -76,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobile = isset($_POST['mobile']) ? preg_replace('/[^0-9]/', '', $_POST['mobile']) : '';
     $address = isset($_POST['address']) ? strip_tags(trim($_POST['address'])) : '';
     
+    $gadgetType = isset($_POST['gadgetType']) ? strip_tags(trim($_POST['gadgetType'])) : '';
     $laptopCompany = isset($_POST['laptopCompany']) ? strip_tags(trim($_POST['laptopCompany'])) : '';
     $laptopModel = isset($_POST['laptopModel']) ? strip_tags(trim($_POST['laptopModel'])) : '';
     $serialNumber = isset($_POST['serialNumber']) ? strip_tags(trim($_POST['serialNumber'])) : '';
@@ -91,8 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Valid Email";
     if (strlen($mobile) != 10) $errors[] = "10-digit Mobile Number";
     if (empty($address)) $errors[] = "Address";
-    if (empty($laptopCompany)) $errors[] = "Laptop Company";
-    if (empty($laptopModel)) $errors[] = "Laptop Model";
+    if (empty($gadgetType)) $errors[] = "Gadget Type";
+    if (empty($laptopCompany)) $errors[] = "Brand / Company";
+    if (empty($laptopModel)) $errors[] = "Model Name/Number";
     if (empty($serialNumber)) $errors[] = "Serial Number";
     if ($expectedPrice <= 0) $errors[] = "Expected Selling Price";
     if (!$legalDeclaration) $errors[] = "Legal Declaration Checkbox";
@@ -136,12 +138,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert into Database
     $sql = "INSERT INTO second_hand_laptop_requests 
-            (owner_name, email, mobile, address, laptop_company, laptop_model, serial_number, expected_price, description, document_path, laptop_images, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
+            (owner_name, email, mobile, address, gadget_type, laptop_company, laptop_model, serial_number, expected_price, description, document_path, laptop_images, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
     
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssdsss", 
-        $ownerName, $email, $mobile, $address, $laptopCompany, $laptopModel, $serialNumber, $expectedPrice, $description, $documentPath, $laptopImagesJson
+    $stmt->bind_param("ssssssssdsss", 
+        $ownerName, $email, $mobile, $address, $gadgetType, $laptopCompany, $laptopModel, $serialNumber, $expectedPrice, $description, $documentPath, $laptopImagesJson
     );
 
     if ($stmt->execute()) {

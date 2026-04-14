@@ -52,6 +52,7 @@ $owner_name = sanitizeInput($_POST['owner_name']);
 $email = sanitizeInput($_POST['email']);
 $mobile = sanitizeInput($_POST['mobile']);
 $address = sanitizeInput($_POST['address']);
+$gadget_type = sanitizeInput($_POST['gadget_type']);
 $laptop_company = sanitizeInput($_POST['laptop_company']);
 $laptop_model = sanitizeInput($_POST['laptop_model']);
 $serial_number = sanitizeInput($_POST['serial_number']);
@@ -75,9 +76,9 @@ if (isset($_FILES['laptop_images']) && !empty($_FILES['laptop_images']['name'][0
     }
 }
 
-$sql = "UPDATE second_hand_laptop_requests SET owner_name=?, email=?, mobile=?, address=?, laptop_company=?, laptop_model=?, serial_number=?, expected_price=?, description=?";
-$params = [$owner_name, $email, $mobile, $address, $laptop_company, $laptop_model, $serial_number, $expected_price, $description];
-$types = "ssssssdss"; // Uses 'd' for double/float expected_price
+$sql = "UPDATE second_hand_laptop_requests SET owner_name=?, email=?, mobile=?, address=?, gadget_type=?, laptop_company=?, laptop_model=?, serial_number=?, expected_price=?, description=?";
+$params = [$owner_name, $email, $mobile, $address, $gadget_type, $laptop_company, $laptop_model, $serial_number, $expected_price, $description];
+$types = "ssssssssds"; // Uses 'd' for double/float expected_price
 
 if ($docResult['success']) {
     $sql .= ", document_path=?";
