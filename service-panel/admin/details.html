@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Details - Staff Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .details-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .details-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="padding:0;">
+            <a href="../../index.html" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+                <img src="../../images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" style="height: 38px; width: auto;">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+                    <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
+                    <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase;">Service Panel</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="add-service.html">New Request</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container details-layout" id="mainContainer" style="display:none;">
+        <div class="card" style="padding:35px;">
+            <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Service Details</span> 
+                <span id="svcIdDisplay"></span>
+            </div>
+            <div id="detailsArea">Loading...</div>
+        </div>
+
+        <div class="card" style="padding:35px; background:var(--bg-light); border:0; box-shadow:inset 0 2px 4px rgba(0,0,0,0.02), var(--shadow);">
+            <div class="card-title" style="border-bottom-color:#cbd5e1;">Update Status</div>
+            <form id="updateStatusForm">
+                <input type="hidden" id="internalId" name="id">
+                <div class="form-group">
+                    <label>Current Status</label>
+                    <select name="status" id="statusSelect" class="form-control" required style="font-weight:600; border:2px solid var(--border-color);">
+                        <option value="Pending">Pending</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Diagnosing">Diagnosing</option>
+                        <option value="Repair in Progress">Repair in Progress</option>
+                        <option value="Waiting for Parts">Waiting for Parts</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Ready for Pickup">Ready for Pickup</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Remarks / Notes (Internal & Public)</label>
+                    <textarea name="remarks" class="form-control" rows="3" placeholder="Add an update note..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:14px; font-size:1.05rem;">Save Update</button>
+            </form>
+            <div id="updateMsg" class="mt-4" style="font-weight:600; text-align:center;"></div>
+        </div>
+    </div>
+
+    <div class="container text-center mt-4" id="loadingState">
+        <h2>Loading service record...</h2>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const svcId = urlParams.get('id');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(!svcId) {
+                document.getElementById('loadingState').innerHTML = '<h2 style="color:var(--danger)">No Service ID provided.</h2>';
+                return;
+            }
+            loadDetails();
+        });
+
+        async function loadDetails() {
+            try {
+                const res = await fetch(`../api/get_service.php?id=${encodeURIComponent(svcId)}`);
+                const json = await res.json();
+                
+                document.getElementById('loadingState').style.display = 'none';
+                
+                if(json.status === 'success' && json.data) {
+                    document.getElementById('mainContainer').style.display = 'grid';
+                    const svc = json.data;
+                    document.getElementById('svcIdDisplay').innerHTML = `<strong style="font-size:1.3rem; margin-right:15px; color:var(--text-dark);">${svc.service_id}</strong> <span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span>`;
+                    document.getElementById('internalId').value = svc.id;
+                    document.getElementById('statusSelect').value = svc.status;
+                    
+                    let html = `
+                        <div class="info-grid">
+                            <div class="info-item"><label>Customer Name</label><div style="font-weight:600; font-size:1.1rem;">${svc.name}</div></div>
+                            <div class="info-item"><label>Phone</label><div class="text-muted">${svc.phone}</div></div>
+                            <div class="info-item"><label>Service Type</label><div>${svc.service_type}</div></div>
+                            <div class="info-item"><label>Device Model</label><div style="font-weight:600;">${svc.device_name}</div></div>
+                            <div class="info-item"><label>Date Received</label><div>${formatDate(svc.date_received)}</div></div>
+                        </div>
+                        <div class="mt-4 info-item" style="background:#fff; border:1px solid var(--border-color);">
+                            <label>Problem Description</label>
+                            <p style="margin:0; font-size:1.05rem;">${svc.problem}</p>
+                        </div>
+                    `;
+
+                    if(svc.image_path) {
+                        html += `<div class="mt-4"><label style="font-weight:600; color:var(--muted); font-size:0.85rem; text-transform:uppercase;">Device Image Attachment:</label><br><img src="../${svc.image_path}" style="max-height:250px; border-radius:12px; margin-top:10px; box-shadow:var(--shadow);"></div>`;
+                    }
+
+                    if(svc.logs && svc.logs.length > 0) {
+                        html += `<h3 class="mt-4" style="color:var(--primary-dark); font-size:1.25rem; margin-top:40px !important;">Update History</h3>
+                        <table style="margin-top:15px;">
+                            <tr><th>Date & Time</th><th>Status Transition</th><th>Remarks / Notes</th></tr>`;
+                        svc.logs.forEach(log => {
+                            html += `<tr>
+                                <td style="white-space:nowrap; color:#475569;">${formatDate(log.updated_at)}</td>
+                                <td><span class="${getStatusBadgeClass(log.status)}">${log.status}</span></td>
+                                <td>${log.remarks || '<span class="text-muted">No remarks</span>'}</td>
+                            </tr>`;
+                        });
+                        html += `</table>`;
+                    }
+                    
+                    document.getElementById('detailsArea').innerHTML = html;
+                } else {
+                    document.getElementById('loadingState').style.display = 'block';
+                    document.getElementById('loadingState').innerHTML = `<h2 style="color:var(--danger)">${json.message || 'Record not found.'}</h2>`;
+                }
+            } catch(e) {
+                console.error(e);
+                document.getElementById('loadingState').innerHTML = '<h2 style="color:var(--danger)">Error loading details. Check network connection.</h2>';
+            }
+        }
+
+        document.getElementById('updateStatusForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.innerText = 'Saving...';
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const res = await fetch('../api/update_status.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const json = await res.json();
+                const msg = document.getElementById('updateMsg');
+                if(json.status === 'success') {
+                    msg.innerHTML = `<span style="color:var(--success)">${json.message}</span>`;
+                    e.target.elements['remarks'].value = ''; 
+                    loadDetails(); 
+                    setTimeout(() => msg.innerHTML = '', 3000);
+                } else {
+                    msg.innerHTML = `<span style="color:var(--danger)">Error: ${json.message}</span>`;
+                }
+            } catch(err) {
+                alert('Update failed');
+            }
+            btn.disabled = false;
+            btn.innerText = 'Save Update';
+        });
+    </script>
+</body>
+</html>

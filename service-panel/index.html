@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Service - Infinity Computer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Modern Package Stepper */
+        .track-stepper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 40px 0 50px;
+        }
+        .track-stepper::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .track-stepper-progress {
+            position: absolute;
+            top: 25px;
+            left: 10%;
+            height: 4px;
+            background: var(--primary-color);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            background: #fff;
+            border: 4px solid #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+        }
+        .step p {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .step.done .step-icon { border-color: var(--primary-color); background: var(--primary-color); color: #fff; }
+        .step.active .step-icon { border-color: var(--primary-color); background: #fff; color: var(--primary-color); box-shadow: 0 0 0 4px rgba(31, 95, 174, 0.2); }
+        .step.done p, .step.active p { color: var(--text-dark); font-weight: 700; }
+        .step.cancelled-step .step-icon { border-color: var(--danger); background: var(--danger); color: #fff; }
+        .step.cancelled-step p { color: var(--danger); }
+
+        .timeline { list-style: none; padding: 0; position: relative; margin-top: 30px; }
+        .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 24px; width: 2px; background: #e2e8f0; }
+        .timeline li { position: relative; margin-bottom: 20px; padding-left: 60px; }
+        .timeline-bullet { position: absolute; left: 16px; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: #e2e8f0; border: 3px solid #fff; box-shadow: 0 0 0 1px #cbd5e1; z-index: 2; }
+        .timeline li:first-child .timeline-bullet { background: var(--primary-color); box-shadow: 0 0 0 2px rgba(31, 95, 174, 0.3); width: 20px; height: 20px; left: 15px; top: 2px; }
+        .timeline-content { background: var(--bg-light); border-radius: 12px; padding: 15px 20px; border: 1px solid var(--border-color); }
+        .timeline-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; flex-wrap: wrap; gap:10px; }
+        .timeline-title { font-weight: 600; font-size: 1.05rem; margin: 0; color: var(--text-dark); }
+        .timeline-date { font-size: 0.85rem; color: #64748b; font-weight: 500; }
+        .timeline-text { margin: 0; font-size: 0.95rem; color: #475569; }
+        
+        /* Multi-service Accordion Tweaks */
+        .service-accordion {
+            background: #fff; border: 1px solid var(--border-color);
+            border-radius: 12px; margin-bottom: 15px; overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .service-header {
+            padding: 20px; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            background: #fafbfc; border-bottom: 1px solid transparent;
+            transition: background 0.3s;
+        }
+        .service-header:hover { background: #f1f5f9; }
+        .service-header.open { border-bottom-color: var(--border-color); background: #fff; }
+        .service-body { padding: 30px 20px; display: none; }
+        .service-body.open { display: block; }
+
+        @media (max-width: 768px) {
+            .track-stepper { flex-direction: column; align-items: flex-start; gap: 30px; margin-left: 20px; }
+            .track-stepper::before { top: 0; bottom: 0; left: 25px; width: 2px; height: auto; }
+            .track-stepper-progress { top: 0; left: 25px; width: 2px; height: var(--prog-height, 0%); }
+            .step { display: flex; align-items: center; gap: 20px; text-align: left; width: 100%; }
+            .step-icon { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container" style="padding:0;">
+            <a href="../index.html" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+                <img src="../images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" style="height: 38px; width: auto;">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+                    <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
+                    <span style="font-size: 0.65rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Service Tracking</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="admin/index.html">Staff Sign-In</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-section">
+            <h2>Track Your Service Status</h2>
+            <p>Enter your Service ID or Mobile Number to check all your device repairs.</p>
+            <div class="search-bar mt-4" style="max-width: 600px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-radius: 50px;">
+                <input type="text" id="searchInput" class="form-control" placeholder="e.g. INF-2026-001 or 9876543210" onkeypress="if(event.key === 'Enter') searchService()" style="border-radius:50px 0 0 50px; padding:18px 25px; border-right:0;">
+                <button class="btn btn-primary" onclick="searchService()" style="border-radius:0 50px 50px 0; padding: 18px 35px;">Track Orders</button>
+            </div>
+            <div id="loading" class="mt-4 hidden" style="font-weight:600; color:var(--primary-color);">Checking systems...</div>
+            <div id="error" class="mt-4 hidden" style="color: var(--danger); font-weight:600; background: #fee2e2; padding: 15px; border-radius: 8px; max-width: 600px; margin: 20px auto 0;"></div>
+        </div>
+
+        <div id="resultsArea" class="hidden" style="max-width: 850px; margin: 0 auto;">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        async function searchService() {
+            const query = document.getElementById('searchInput').value.trim();
+            if(!query) return;
+
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('error').classList.add('hidden');
+            document.getElementById('resultsArea').classList.add('hidden');
+            
+            try {
+                const res = await fetch(`api/search_service.php?q=${encodeURIComponent(query)}`);
+                const json = await res.json();
+                
+                document.getElementById('loading').classList.add('hidden');
+                
+                if(json.status === 'success' && json.data.length > 0) {
+                    renderResults(json.data);
+                } else {
+                    document.getElementById('error').innerText = 'No service records found. Please check your ID or Phone Number.';
+                    document.getElementById('error').classList.remove('hidden');
+                }
+            } catch(e) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').innerText = 'An error occurred while communicating with the server.';
+                document.getElementById('error').classList.remove('hidden');
+            }
+        }
+
+        function getStepData(status) {
+            const s = status.toLowerCase();
+            if(s === 'cancelled') return { currentStep: -1 };
+            if(s === 'pending' || s === 'accepted') return { currentStep: 0, progress: '0%' };
+            if(s === 'diagnosing') return { currentStep: 1, progress: '25%' };
+            if(s === 'repair in progress' || s === 'waiting for parts') return { currentStep: 2, progress: '50%' };
+            if(s === 'completed' || s === 'ready for pickup') return { currentStep: 3, progress: '75%' };
+            if(s === 'delivered') return { currentStep: 4, progress: '100%' };
+            return { currentStep: 0, progress: '0%' };
+        }
+
+        function toggleAccordion(id) {
+            const body = document.getElementById('body-' + id);
+            const header = document.getElementById('header-' + id);
+            if(body.classList.contains('open')) {
+                body.classList.remove('open');
+                header.classList.remove('open');
+            } else {
+                body.classList.add('open');
+                header.classList.add('open');
+            }
+        }
+
+        function renderResults(services) {
+            const container = document.getElementById('resultsArea');
+            container.innerHTML = '';
+            container.classList.remove('hidden');
+
+            const isMulti = services.length > 1;
+            
+            if(isMulti) {
+                const h = document.createElement('h3');
+                h.style.marginBottom = '25px';
+                h.style.textAlign = 'center';
+                h.style.color = 'var(--primary-dark)';
+                h.innerText = `Service History (${services.length} devices found)`;
+                container.appendChild(h);
+            }
+
+            services.forEach((svc, index) => {
+                const wrap = document.createElement('div');
+                wrap.className = isMulti ? 'service-accordion' : 'card';
+                if(!isMulti) wrap.style.marginBottom = '40px';
+                
+                const { currentStep, progress } = getStepData(svc.status);
+                const isCancelled = currentStep === -1;
+                const isOpen = !isMulti || index === 0;
+
+                // Create Header (always visible in multi)
+                let html = '';
+                if(isMulti) {
+                    html += `
+                        <div class="service-header ${isOpen ? 'open' : ''}" id="header-${svc.id}" onclick="toggleAccordion('${svc.id}')">
+                            <div style="flex:1;">
+                                <div style="display:flex; align-items:center; gap:15px; margin-bottom:5px;">
+                                    <strong style="font-size:1.1rem; color:var(--primary-dark);">${svc.service_id}</strong>
+                                    <span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span>
+                                </div>
+                                <div style="color:var(--muted); font-size:0.95rem;">${svc.device_name} - ${formatDate(svc.date_received)}</div>
+                            </div>
+                            <div style="color:var(--primary-color); font-weight:600; font-size:1.5rem;">▼</div>
+                        </div>
+                        <div class="service-body ${isOpen ? 'open' : ''}" id="body-${svc.id}">
+                    `;
+                } else {
+                    html += `
+                        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span>Service Ticket: <strong style="color:var(--text-dark);">${svc.service_id}</strong></span>
+                            <span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span>
+                        </div>
+                    `;
+                }
+
+                if(isCancelled) {
+                    html += `
+                        <div class="track-stepper" style="justify-content:center;">
+                            <div class="step cancelled-step">
+                                <div class="step-icon">❌</div>
+                                <p>Service Cancelled</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="track-stepper" style="--prog-height: ${progress};">
+                            <div class="track-stepper-progress" style="width: ${window.innerWidth > 768 ? progress : '2px'};"></div>
+                            
+                            <div class="step ${currentStep >= 0 ? 'done' : ''} ${currentStep === 0 ? 'active' : ''}">
+                                <div class="step-icon">📦</div>
+                                <p>Received</p>
+                            </div>
+                            
+                            <div class="step ${currentStep >= 1 ? 'done' : ''} ${currentStep === 1 ? 'active' : ''}">
+                                <div class="step-icon">🔍</div>
+                                <p>Diagnosing</p>
+                            </div>
+                            
+                            <div class="step ${currentStep >= 2 ? 'done' : ''} ${currentStep === 2 ? 'active' : ''}">
+                                <div class="step-icon">🔧</div>
+                                <p>Repairing</p>
+                            </div>
+                            
+                            <div class="step ${currentStep >= 3 ? 'done' : ''} ${currentStep === 3 ? 'active' : ''}">
+                                <div class="step-icon">✅</div>
+                                <p>Ready</p>
+                            </div>
+                            
+                            <div class="step ${currentStep >= 4 ? 'done' : ''} ${currentStep === 4 ? 'active' : ''}">
+                                <div class="step-icon">🎉</div>
+                                <p>Delivered</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Info
+                html += `
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 25px; margin-top: 10px;">
+                        <h4 style="margin-bottom:15px; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Device & Issue Information</h4>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Customer Name</label>
+                                <div style="font-weight:600; font-size:1.1rem; color:var(--text-dark);">${svc.name}</div>
+                            </div>
+                            <div class="info-item">
+                                <label>Device Model</label>
+                                <div style="font-weight:600; color:var(--text-dark);">${svc.device_name}</div>
+                                <div class="text-muted" style="font-size:0.85rem;">${svc.service_type}</div>
+                            </div>
+                        </div>
+                        <div class="info-item" style="margin-top: 15px; background: #fff; border: 1px solid var(--border-color);">
+                            <label>Reported Problem</label>
+                            <div style="color:var(--text-dark);">${svc.problem}</div>
+                        </div>
+                    </div>
+                `;
+
+                if(svc.image_path) {
+                    html += `
+                        <div class="mt-4">
+                            <label style="font-weight:600; color:var(--muted); font-size:0.85rem; text-transform:uppercase;">Attached Image</label>
+                            <br><img src="${svc.image_path}" class="device-image-preview" style="max-height:200px; border-radius:10px; margin-top:5px;" alt="Device">
+                        </div>
+                    `;
+                }
+
+                if(svc.logs && svc.logs.length > 0) {
+                    html += `<div style="margin-top: 30px; padding-top: 10px;">
+                                <h4 style="margin-bottom:0; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Detailed Activity Log</h4>
+                                <ul class="timeline">`;
+                    svc.logs.forEach((log, idx) => {
+                        html += `
+                            <li>
+                                <div class="timeline-bullet"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-meta">
+                                        <h5 class="timeline-title">${log.status}</h5>
+                                        <span class="timeline-date">${formatDate(log.updated_at)}</span>
+                                    </div>
+                                    ${log.remarks ? `<p class="timeline-text">${log.remarks}</p>` : ''}
+                                </div>
+                            </li>
+                        `;
+                    });
+                    html += `</ul></div>`;
+                }
+
+                if(isMulti) {
+                    html += `</div>`; // Close service body
+                }
+
+                wrap.innerHTML = html;
+                container.appendChild(wrap);
+            });
+        }
+    </script>
+</body>
+</html>

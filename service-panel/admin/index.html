@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Staff Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container" style="padding:0;">
+            <a href="../../index.html" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+                <img src="../../images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" style="height: 38px; width: auto;">
+                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+                    <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
+                    <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Service Panel</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" style="color:var(--primary-color);">Dashboard</a></li>
+                <li><a href="add-service.html">New Request</a></li>
+                <li><a href="../index.html" target="_blank">Public Tracking</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap: wrap; gap: 20px;">
+            <h2 style="font-size:1.8rem; margin:0;">Recent Service Requests</h2>
+            <div class="search-bar" style="max-width:350px; margin:0;">
+                <input type="text" id="adminSearchInput" class="form-control" placeholder="Search ID or Phone..." style="border-radius:10px;" onkeypress="if(event.key === 'Enter') searchAdmin()">
+                <button class="btn btn-primary" onclick="searchAdmin()">Search</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Date Received</th>
+                        <th>Customer</th>
+                        <th>Device & Type</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="serviceTableBody">
+                    <tr><td colspan="6" class="text-center" style="padding:40px; color:#6c757d;">Loading requests...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRecentServices();
+        });
+
+        async function loadRecentServices() {
+            try {
+                const res = await fetch('../api/list_services.php');
+                const text = await res.text();
+                try {
+                    const json = JSON.parse(text);
+                    if(json.status === 'error') throw new Error(json.message);
+                    renderTable(json.data || []);
+                } catch(e) {
+                    console.error(e);
+                    document.getElementById('serviceTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Database error.</td></tr>';
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        async function searchAdmin() {
+            const q = document.getElementById('adminSearchInput').value.trim();
+            if(!q) return loadRecentServices();
+            try {
+                document.getElementById('serviceTableBody').innerHTML = '<tr><td colspan="6" class="text-center">Searching...</td></tr>';
+                const res = await fetch(`../api/search_service.php?q=${encodeURIComponent(q)}`);
+                const json = await res.json();
+                renderTable(json.data || []);
+            } catch(e) {
+                document.getElementById('serviceTableBody').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Search failed</td></tr>';
+            }
+        }
+
+        function renderTable(services) {
+            const tbody = document.getElementById('serviceTableBody');
+            tbody.innerHTML = '';
+            if(services.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding:40px; color:#6c757d;">No records found.</td></tr>';
+                return;
+            }
+            services.forEach(svc => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong style="color:var(--primary-dark); font-size:1.05rem;">${svc.service_id}</strong></td>
+                    <td>${formatDate(svc.date_received)}</td>
+                    <td><div style="font-weight:600;">${svc.name}</div><div class="text-muted" style="font-size:0.9rem;">${svc.phone}</div></td>
+                    <td><div style="font-weight:600;">${svc.device_name}</div><div class="text-muted" style="font-size:0.9rem;">${svc.service_type}</div></td>
+                    <td><span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span></td>
+                    <td><a href="details.html?id=${encodeURIComponent(svc.service_id)}" class="btn btn-primary" style="padding: 8px 15px; font-size: 0.9rem;">Update</a></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
