@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Request | Infinity Computer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, .3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .result-card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .status-pending {
+      background: #ffeeba;
+      color: #856404;
+    }
+
+    .status-approved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home"
+        style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo"
+          style="height: 48px; width: auto; object-fit: contain;">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
+          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span
+              class="text-accent">Computer</span></span>
+          <span
+            style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think
+            before you click</span>
+        </div>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg
+          width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg><span>Menu</span></button>
+      <nav class="main-nav" data-main-nav aria-label="Main Navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li class="has-dropdown">
+            <a href="services.html">Services
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="buybackgadget.html">Buyback Gadget</a></li>
+              <li><a href="service-request.html">Service Request</a></li>
+              <li><a href="book-home-service.html">Book Home Service</a></li>
+              <li><a class="active" href="track-request.html">Track Request</a></li>
+            </ul>
+          </li>
+          <li><a href="products.html">Products &amp; Partners</a></li>
+          <li class="has-dropdown">
+            <a href="education.html">Education
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="enrollment.html">Enrollment</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero reveal">
+      <div class="container page-hero-inner">
+        <h1 class="text-shimmer">Track Your Service Request</h1>
+        <p>Enter your Service ID, Phone Number, or Name to check the status of your device.</p>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="container">
+        <article class="card reveal-scale" style="max-width: 600px; margin: 0 auto; padding: 40px; text-align: center;">
+          <form id="trackForm">
+            <div class="form-row">
+              <input type="text" id="search_query" name="search_query" placeholder="Enter Service ID, Phone, or Name..."
+                required style="padding: 15px; font-size: 1.1rem; width: 100%;">
+            </div>
+            <div style="margin-top: 20px;">
+              <button class="btn btn-primary" type="submit" id="submitBtn"
+                style="padding: 15px 30px; font-size: 1.1rem;">Track Status</button>
+            </div>
+          </form>
+
+          <div id="resultsArea"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script>
+    document.getElementById('trackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const q = document.getElementById('search_query').value;
+      const resArea = document.getElementById('resultsArea');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> Searching...';
+      resArea.innerHTML = '';
+
+      try {
+        const response = await fetch(`service-panel/api/search_user_request.php?q=${encodeURIComponent(q)}`);
+        const result = await response.json();
+
+        if (result.status === 'success' && result.data.length > 0) {
+          let html = '<h3>Results Found</h3>';
+          result.data.forEach(item => {
+            let statusClass = 'status-pending';
+            if (item.status === 'Approved' || item.status === 'Accepted' || item.status === 'Completed' || item.status === 'Ready for Pickup' || item.status === 'Delivered') statusClass = 'status-approved';
+            if (item.status === 'Rejected' || item.status === 'Cancelled') statusClass = 'status-rejected';
+
+            if (item.request_type === 'home') {
+              html += `
+                             <div class="result-card" style="border-left: 5px solid #007bff;">
+                                 <div style="display:flex; justify-content:space-between; align-items:start;">
+                                     <h4 style="margin:0; color:var(--primary);">${item.service_id}</h4>
+                                     <span style="font-size:0.7rem; background:#e0e0e0; padding:2px 6px; border-radius:4px; font-weight:700; text-transform:uppercase;">Home Service</span>
+                                 </div>
+                                 <p style="margin-top:10px;"><strong>Customer:</strong> ${item.name} (${item.phone})</p>
+                                 <p><strong>Service:</strong> ${item.service_type}</p>
+                                 <p><strong>Scheduled:</strong> ${item.booking_date} at ${item.time_slot}</p>
+                                 <p><strong>Address:</strong> ${item.address}</p>
+                                 <p><strong>Status:</strong> <span class="badge-status ${statusClass}">${item.status}</span></p>
+                                 <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc; font-size: 0.85rem; color: #666;">
+                                     <strong>Note:</strong> This data will be wiped within 30 days. You can use your Service ID for tracking on this page.
+                                 </div>
+                             </div>
+                        `;
+            } else {
+              let imgHtml = item.image_path ? `<div style="margin-top:10px;"><img src="${item.image_path}" alt="Device" style="max-width:100%; height:auto; border-radius:4px; max-height:200px;"></div>` : '';
+              let mainWorkflowMsg = '';
+              if (item.status === 'Approved' && item.device_received == 1) {
+                mainWorkflowMsg = `<div style="margin-top:10px; color:#155724; background:#d4edda; padding:10px; border-radius:4px;"><strong>Note:</strong> Your device is now with our engineers. Please track it on the <strong>main tracking page</strong> using your Service ID for engineer updates.</div>`;
+              }
+
+              html += `
+                             <div class="result-card">
+                                 <h4 style="margin:0 0 10px 0; color:var(--primary);">${item.service_id}</h4>
+                                 <p><strong>Customer:</strong> ${item.name} (${item.phone})</p>
+                                 <p><strong>Device:</strong> ${item.brand} ${item.model} (${item.device_type})</p>
+                                 <p><strong>Problem:</strong> ${item.problem}</p>
+                                 <p><strong>Status:</strong> <span class="badge-status ${statusClass}">${item.status}</span></p>
+                                 <p><strong>Device Dropped Off:</strong> ${item.device_received == 1 ? '✅ Yes' : '❌ No (Please drop off at store)'}</p>
+                                 ${imgHtml}
+                                 ${mainWorkflowMsg}
+                                 <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc; font-size: 0.85rem; color: #666;">
+                                     <strong>Note:</strong> This data will be wiped within 30 days. You can use your Service ID for tracking on this page.
+                                 </div>
+                             </div>
+                        `;
+            }
+          });
+          resArea.innerHTML = html;
+        } else {
+          resArea.innerHTML = `<div style="margin-top:20px; color:#d93025; background:#fce8e6; padding:15px; border-radius:8px;">${result.message || 'No records found.'}</div>`;
+        }
+      } catch (error) {
+        resArea.innerHTML = `<div style="margin-top:20px; color:#d93025; background:#fce8e6; padding:15px; border-radius:8px;">Network error. Please try again.</div>`;
+      }
+      btn.disabled = false;
+      btn.innerHTML = 'Track Status';
+    });
+  </script>
+</body>
+
+</html>

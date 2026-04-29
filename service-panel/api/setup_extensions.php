@@ -1,0 +1,41 @@
+<?php
+require_once '../../config/db.php';
+
+try {
+    // 1. User Service Requests Table
+    $conn->query("CREATE TABLE IF NOT EXISTS user_service_requests (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        service_id VARCHAR(50) NOT NULL UNIQUE,
+        name VARCHAR(255) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        address TEXT NOT NULL,
+        device_type VARCHAR(100) NOT NULL,
+        brand VARCHAR(100) DEFAULT NULL,
+        model VARCHAR(100) DEFAULT NULL,
+        problem TEXT NOT NULL,
+        image_path VARCHAR(255),
+        status VARCHAR(50) DEFAULT 'Pending Approval',
+        device_received BOOLEAN DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    // 2. Home Service Requests Table
+    $conn->query("CREATE TABLE IF NOT EXISTS home_service_requests (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        service_id VARCHAR(50) NOT NULL UNIQUE,
+        name VARCHAR(255) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        address TEXT NOT NULL,
+        service_type VARCHAR(100) NOT NULL,
+        time_slot VARCHAR(50) NOT NULL,
+        status VARCHAR(50) DEFAULT 'Pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    echo "Tables created successfully.";
+} catch(Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>

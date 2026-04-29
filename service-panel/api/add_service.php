@@ -6,6 +6,7 @@ header('Content-Type: application/json');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'] ?? '';
     $phone = $_POST['phone'] ?? '';
+    $email = $_POST['email'] ?? '';
     $service_type = $_POST['service_type'] ?? '';
     $device_name = $_POST['device_name'] ?? '';
     $problem = $_POST['problem'] ?? '';
@@ -15,10 +16,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
+    // Ensure image_path column exists in services table
+    $res = $conn->query("SHOW COLUMNS FROM services LIKE 'image_path'");
+    if ($res->num_rows == 0) {
+        $conn->query("ALTER TABLE services ADD COLUMN image_path VARCHAR(255) DEFAULT NULL AFTER problem");
+    }
+
+    // Ensure email column exists in customers table
+    $res = $conn->query("SHOW COLUMNS FROM customers LIKE 'email'");
+    if ($res->num_rows == 0) {
+        $conn->query("ALTER TABLE customers ADD COLUMN email VARCHAR(255) DEFAULT NULL AFTER phone");
+    }
+
     try {
         $conn->begin_transaction();
 
-        $stmt = $conn->prepare("SELECT id FROM customers WHERE phone = ?");
+        $device_received = isset($_POST['device_received']) ? 1 : 0;
+
+        if ($device_received == 0) {
+            $conn->query("CREATE TABLE IF NOT EXISTS user_service_requests (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                service_id VARCHAR(50) NOT NULL UNIQUE,
+                name VARCHAR(255) NOT NULL,
+                phone VARCHAR(20) NOT NULL,
+                email VARCHAR(255) NOT NULL,
+                address TEXT NOT NULL,
+                device_type VARCHAR(100) NOT NULL,
+                brand VARCHAR(100) DEFAULT NULL,
+                model VARCHAR(100) DEFAULT NULL,
+                problem TEXT NOT NULL,
+                image_path VARCHAR(255),
+                status VARCHAR(50) DEFAULT 'Pending Approval',
+                device_received BOOLEAN DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )");
+
+            $date_prefix = date("Ymd");
+            $stmt = $conn->prepare("SELECT COUNT(*) as count FROM user_service_requests WHERE DATE(created_at) = CURDATE()");
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $row = $res->fetch_assoc();
+            $next_num = $row['count'] + 1;
+            $service_id = "INF-SRV-" . $date_prefix . "-" . str_pad($next_num, 4, "0", STR_PAD_LEFT);
+            
+            $stmt = $conn->prepare("SELECT id FROM user_service_requests WHERE service_id = ?");
+            while(true) {
+                $stmt->bind_param("s", $service_id);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                if(!$res->fetch_assoc()) break;
+                $next_num++;
+                $service_id = "INF-SRV-" . $date_prefix . "-" . str_pad($next_num, 4, "0", STR_PAD_LEFT);
+            }
+
+            require_once 'image_helper.php';
+            $image_path = null;
+            if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $filename = processAndSaveImage($_FILES['image'], "../../uploads/service-requests/");
+                if ($filename) {
+                    $image_path = "uploads/service-requests/" . $filename;
+                }
+            }
+
+            $address = 'N/A';
+            $brand = 'N/A';
+            
+            $stmt = $conn->prepare("INSERT INTO user_service_requests (service_id, name, phone, email, address, device_type, brand, model, problem, image_path, status, device_received) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending Drop-off', 0)");
+            $stmt->bind_param("ssssssssss", $service_id, $name, $phone, $email, $address, $service_type, $brand, $device_name, $problem, $image_path);
+            $stmt->execute();
+
+            $conn->commit();
+
+            if (!empty($email)) {
+                require_once 'email_helper.php';
+                sendPendingDropoffEmail($email, $name, $service_id);
+            }
+
+            echo json_encode(['status' => 'success', 'service_id' => $service_id, 'message' => 'Request added to User Requests. Device pending drop-off']);
+            exit;
+        }
+
+        $stmt = $conn->prepare("SELECT id, email FROM customers WHERE phone = ?");
         $stmt->bind_param("s", $phone);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -26,9 +104,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($customer) {
             $customer_id = $customer['id'];
+            if (empty($customer['email']) && !empty($email)) {
+                $upd = $conn->prepare("UPDATE customers SET email = ? WHERE id = ?");
+                $upd->bind_param("si", $email, $customer_id);
+                $upd->execute();
+            }
         } else {
-            $stmt = $conn->prepare("INSERT INTO customers (name, phone) VALUES (?, ?)");
-            $stmt->bind_param("ss", $name, $phone);
+            $stmt = $conn->prepare("INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $name, $phone, $email);
             $stmt->execute();
             $customer_id = $conn->insert_id;
         }
@@ -53,14 +136,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $service_id = "INF-" . $year . "-" . str_pad($next_num, 3, "0", STR_PAD_LEFT);
         }
 
+        // Image Processing
+        require_once 'image_helper.php';
         $image_path = null;
         if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $target_dir = "../uploads/images/";
-            if(!is_dir($target_dir)) mkdir($target_dir, 0777, true);
-            $filename = time() . '_' . basename($_FILES["image"]["name"]);
-            $filename = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", $filename);
-            $target_file = $target_dir . $filename;
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            $filename = processAndSaveImage($_FILES['image'], "../../uploads/images/");
+            if ($filename) {
                 $image_path = "uploads/images/" . $filename;
             }
         }
@@ -77,6 +158,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         $conn->commit();
+
+        if (!empty($email)) {
+            // Send Email Notification to User
+            $to = $email;
+            $subject = "Infinity Computer - Service Request Registered ({$service_id})";
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= "From: Infinity Computer <noreply@infinitycomputer.in>" . "\r\n";
+
+            $message = "
+            <html>
+            <head>
+            <title>Service Request Registered</title>
+            </head>
+            <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;'>
+                    <h2 style='color: #0d6efd; text-align: center;'>Service Request Confirmation</h2>
+                    <p>Dear {$name},</p>
+                    <p>Your service request has been successfully registered at Infinity Computer.</p>
+                    
+                    <div style='background: #f8fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px dashed #cbd5e1;'>
+                        <h3 style='margin-top: 0; color: #1e293b; font-size: 16px;'>Request Details:</h3>
+                        <p style='margin: 5px 0;'><strong>Service ID:</strong> <span style='color: #0d6efd; font-size: 18px; font-weight: bold;'>{$service_id}</span></p>
+                        <p style='margin: 5px 0;'><strong>Service Type:</strong> {$service_type}</p>
+                        <p style='margin: 5px 0;'><strong>Device:</strong> {$device_name}</p>
+                    </div>
+
+                    <p><strong>How to track your status?</strong></p>
+                    <p>You can check the real-time status of your request anytime on our website using your <strong>Service ID</strong>.</p>
+                    
+                    <div style='text-align: center; margin: 30px 0;'>
+                        <a href='https://infinitycomputer.in/track-request.html' style='background: #0d6efd; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>Track Request Now</a>
+                    </div>
+
+                    <p>Our team is working on your request and you will receive updates as we progress.</p>
+                    
+                    <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
+                    <p style='font-size: 12px; color: #64748b; text-align: center;'>
+                        This is an automated message. Please do not reply directly to this email.<br>
+                        &copy; " . date('Y') . " Infinity Computer. All rights reserved.
+                    </p>
+                </div>
+            </body>
+            </html>
+            ";
+            
+            @mail($to, $subject, $message, $headers);
+        }
+
         echo json_encode(['status' => 'success', 'service_id' => $service_id, 'message' => 'Service added successfully']);
 
     } catch(Exception $e) {

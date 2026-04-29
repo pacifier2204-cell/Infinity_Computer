@@ -8,10 +8,29 @@ if (navToggle && mainNav) {
     navToggle.setAttribute("aria-expanded", String(isOpen));
   });
 
+  // Close main nav when clicking a link (but NOT when clicking a dropdown toggle)
   mainNav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mainNav.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
+    link.addEventListener("click", (e) => {
+      // If it's a link inside a dropdown, we should close the nav
+      // If it's a top-level link that HAS a dropdown, we still navigate and close nav
+      if (!link.classList.contains('dropdown-toggle')) {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
+  /* ── Mobile Submenu Toggles ── */
+  document.querySelectorAll(".dropdown-toggle").forEach((toggle) => {
+    toggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const parent = toggle.closest('.has-dropdown');
+      if (parent) {
+        const menu = parent.querySelector(".dropdown-menu");
+        toggle.classList.toggle("active");
+        if (menu) menu.classList.toggle("open");
+      }
     });
   });
 }

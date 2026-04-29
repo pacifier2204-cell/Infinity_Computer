@@ -36,6 +36,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("iss", $service_pk, $new_status, $remarks);
         $stmt->execute();
 
+        // Fetch service details for email
+        $e_stmt = $conn->prepare("SELECT s.service_id, s.device_name, c.name, c.email FROM services s JOIN customers c ON s.customer_id = c.id WHERE s.id = ?");
+        $e_stmt->bind_param("i", $service_pk);
+        $e_stmt->execute();
+        $srv_data = $e_stmt->get_result()->fetch_assoc();
+        
+        if ($srv_data) {
+            $email = $srv_data['email'];
+            $srv_id = $srv_data['service_id'];
+            
+            // If email is not in customers table, try user_service_requests
+            if (empty($email)) {
+                $usr_stmt = $conn->prepare("SELECT email FROM user_service_requests WHERE service_id = ?");
+                $usr_stmt->bind_param("s", $srv_id);
+                $usr_stmt->execute();
+                $usr_res = $usr_stmt->get_result()->fetch_assoc();
+                if ($usr_res && !empty($usr_res['email'])) {
+                    $email = $usr_res['email'];
+                }
+            }
+
+            if (!empty($email)) {
+                require_once 'email_helper.php';
+                sendServiceStatusUpdateEmail($email, $srv_data['name'], $srv_id, $new_status, $srv_data['device_name']);
+            }
+        }
+
         $conn->commit();
         echo json_encode(['status' => 'success', 'message' => 'Status updated successfully']);
     } catch(Exception $e) {

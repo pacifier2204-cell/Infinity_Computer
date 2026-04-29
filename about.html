@@ -18,24 +18,67 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Infinity Computer Home" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
-        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo" style="height: 48px; width: auto; object-fit: contain;">
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home"
+        style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo"
+          style="height: 48px; width: auto; object-fit: contain;">
         <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
-          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span class="text-accent">Computer</span></span>
-          <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think before you click</span>
+          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span
+              class="text-accent">Computer</span></span>
+          <span
+            style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think
+            before you click</span>
         </div>
       </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg><span>Menu</span></button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg
+          width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg><span>Menu</span></button>
       <nav class="main-nav" data-main-nav aria-label="Main Navigation">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a class="active" href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
+          <li class="has-dropdown">
+            <a href="services.html">Services
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="buybackgadget.html">Buyback Gadget</a></li>
+              <li><a href="service-request.html">Service Request</a></li>
+              <li><a href="book-home-service.html">Book Home Service</a></li>
+              <li><a href="track-request.html">Track Request</a></li>
+            </ul>
+          </li>
           <li><a href="products.html">Products &amp; Partners</a></li>
-          <li><a href="education.html">Education</a></li>
-
-          <li><a href="enrollment.html">Enrollment</a></li>
-          <li><a href="buybackgadget.html">Buyback Gadget</a></li>
+          <li class="has-dropdown">
+            <a href="education.html">Education
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="enrollment.html">Enrollment</a></li>
+            </ul>
+          </li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -340,6 +383,8 @@
           <li><a href="products.html">Products &amp; Partners</a></li>
           <li><a href="education.html">Education</a></li>
 
+          <li><a href="service-request.html">Service Request</a></li>
+
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </section>
@@ -356,14 +401,17 @@
       <section>
         <h3 class="footer-title">Contact</h3>
         <ul class="footer-list">
-          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex, Zadeshwar,
+          <li><a href="https://goo.gl/YXsfiz" target="_blank" rel="noopener">FF-10, FF-11, Shreeji Darshan Complex,
+              Zadeshwar,
               Bharuch</a></li>
           <li><a href="tel:02642229070">02642-229070</a></li>
           <li><a href="tel:8690514340">8690514340</a></li>
-          
-          <li style="margin-top: 5px;"><strong style="font-size: 0.85rem; color: var(--primary);">Digital Support / WhatsApp Bot:</strong> <br><a href="https://wa.me/919408306399">9408306399</a></li>
+
+          <li style="margin-top: 5px;"><strong style="font-size: 0.85rem; color: var(--primary);">Digital Support /
+              WhatsApp Bot:</strong> <br><a href="https://wa.me/919408306399">9408306399</a></li>
           <li><b>Bulk Corporate Enquiry:</b> <a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
-          <li><b>Accounts Enquiry:</b> <a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a></li>
+          <li><b>Accounts Enquiry:</b> <a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a>
+          </li>
           <li><span>Mon to Sat | 10:00 AM - 8:00 PM</span></li>
         </ul>
         <div class="socials" aria-label="Social connections">
@@ -446,5 +494,3 @@
 </body>
 
 </html>
-
-

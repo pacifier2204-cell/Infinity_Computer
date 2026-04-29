@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,29 +16,75 @@
       padding: 40px;
       background: white;
       border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" aria-label="Infinity Computer Home" style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
-        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo" style="height: 48px; width: auto; object-fit: contain;">
+      <a class="brand" href="index.html" aria-label="Infinity Computer Home"
+        style="display: flex; align-items: center; gap: 0.6rem; text-decoration: none;">
+        <img src="images/logos/infinity_computer_logo.png" alt="Infinity Computer Logo" class="brand-logo"
+          style="height: 48px; width: auto; object-fit: contain;">
         <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
-          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span class="text-accent">Computer</span></span>
-          <span style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think before you click</span>
+          <span class="brand-text" style="font-size: 1.45rem; line-height: 1.2;">Infinity<span
+              class="text-accent">Computer</span></span>
+          <span
+            style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">think
+            before you click</span>
         </div>
       </a>
-      <nav class="main-nav">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-label="Open menu"><svg
+          width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg><span>Menu</span></button>
+      <nav class="main-nav" data-main-nav aria-label="Main Navigation">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
+          <li class="has-dropdown">
+            <a href="services.html">Services
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="buybackgadget.html">Buyback Gadget</a></li>
+              <li><a href="service-request.html">Service Request</a></li>
+              <li><a href="book-home-service.html">Book Home Service</a></li>
+              <li><a href="track-request.html">Track Request</a></li>
+            </ul>
+          </li>
           <li><a href="products.html">Products &amp; Partners</a></li>
-          <li><a href="education.html">Education</a></li>
-          <li><a href="enrollment.html">Enrollment</a></li>
-          <li><a href="buybackgadget.html">Buyback Gadget</a></li>
+          <li class="has-dropdown">
+            <a href="education.html">Education
+              <svg class="dropdown-indicator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </a>
+            <button class="dropdown-toggle" aria-label="Toggle Submenu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="enrollment.html">Enrollment</a></li>
+            </ul>
+          </li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -48,12 +95,14 @@
     <div class="container">
       <div class="search-container">
         <h2 style="margin-bottom: 20px; text-align: center;">Search Enrollment</h2>
-        <p style="color: #6c757d; margin-bottom: 30px; text-align: center;">Enter your ID and Date of Birth to fetch your details.</p>
-        
+        <p style="color: #6c757d; margin-bottom: 30px; text-align: center;">Enter your ID and Date of Birth to fetch
+          your details.</p>
+
         <form action="search.php" method="GET">
           <div class="form-group" style="margin-bottom: 20px;">
             <label for="student_id">Student ID (e.g., ICC0001) *</label>
-            <input type="text" id="student_id" name="student_id" class="form-control" placeholder="Enter Student ID" required>
+            <input type="text" id="student_id" name="student_id" class="form-control" placeholder="Enter Student ID"
+              required>
           </div>
           <div class="form-group" style="margin-bottom: 30px;">
             <label for="dob">Date of Birth *</label>
@@ -71,35 +120,49 @@
         <h3 class="footer-title">Contact Support</h3>
         <ul class="footer-list">
           <li><a href="tel:8690514340">8690514340</a></li>
-          
-          <li style="margin-top: 5px;"><strong style="font-size: 0.85rem; color: var(--primary);">Digital Support / WhatsApp Bot:</strong> <br><a href="https://wa.me/919408306399">9408306399</a></li>
+
+          <li style="margin-top: 5px;"><strong style="font-size: 0.85rem; color: var(--primary);">Digital Support /
+              WhatsApp Bot:</strong> <br><a href="https://wa.me/919408306399">9408306399</a></li>
           <li><b>Bulk Corporate Enquiry:</b> <a href="mailto:icc@infinitycomputer.in">icc@infinitycomputer.in</a></li>
-          <li><b>Accounts Enquiry:</b> <a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a></li>
+          <li><b>Accounts Enquiry:</b> <a href="mailto:accounts@infinitycomputer.in">accounts@infinitycomputer.in</a>
+          </li>
         </ul>
         <div class="socials" aria-label="Social connections" style="display: flex; gap: 0.5rem; margin-top: 0.7rem;">
           <a href="https://wa.me/918690514340" target="_blank" class="social whatsapp" aria-label="WhatsApp">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z" />
+            </svg>
           </a>
           <a href="mailto:icc@infinitycomputer.in" class="social email" aria-label="Email Us">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
           </a>
           <a href="tel:8690514340" class="social call" aria-label="Call Us">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
           </a>
         </div>
       </section>
     </div>
     <div class="container footer-bottom" style="text-align: center;">
-      <div class="global-presence" style="margin-bottom: 10px; opacity: 0.8;"><i class="fas fa-globe" style="margin-right: 8px; color: #fb2a71;"></i>Our Global Presence: UK | UAE | India</div>
+      <div class="global-presence" style="margin-bottom: 10px; opacity: 0.8;"><i class="fas fa-globe"
+          style="margin-right: 8px; color: #fb2a71;"></i>Our Global Presence: UK | UAE | India</div>
       <small>Copyright 2026 Infinity Computer. All rights reserved.</small>
     </div>
   </footer>
   <a href="https://wa.me/918690514340" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-7.6 8.38 8.38 0 0 1 3.8.9L21 4.5z" />
+    </svg>
   </a>
 </body>
+
 </html>
-
-
-
-
