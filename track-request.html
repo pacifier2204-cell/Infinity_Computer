@@ -229,7 +229,12 @@
           resArea.innerHTML = `<div style="margin-top:20px; color:#d93025; background:#fce8e6; padding:15px; border-radius:8px;">${result.message || 'No records found.'}</div>`;
         }
       } catch (error) {
-        resArea.innerHTML = `<div style="margin-top:20px; color:#d93025; background:#fce8e6; padding:15px; border-radius:8px;">Network error. Please try again.</div>`;
+        console.error("Tracking error:", error);
+        let errorMsg = "Network error or Server misconfiguration. Please ensure your local server is running.";
+        if (window.location.protocol === 'file:') {
+          errorMsg = "<strong>Network Error:</strong> API calls are blocked when using <code>file://</code> protocol. Please use <code>http://localhost</code>.";
+        }
+        resArea.innerHTML = `<div style="margin-top:20px; color:#d93025; background:#fce8e6; padding:15px; border-radius:8px;">${errorMsg}</div>`;
       }
       btn.disabled = false;
       btn.innerHTML = 'Track Status';

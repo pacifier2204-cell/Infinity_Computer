@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $service_type = $_POST['service_type'] ?? '';
     $device_name = $_POST['device_name'] ?? '';
+    $company = $_POST['company'] ?? '';
     $problem = $_POST['problem'] ?? '';
     
     if (empty($name) || empty($phone) || empty($service_type) || empty($device_name) || empty($problem)) {
@@ -16,16 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Ensure image_path column exists in services table
+    // Ensure columns exist in services table
     $res = $conn->query("SHOW COLUMNS FROM services LIKE 'image_path'");
     if ($res->num_rows == 0) {
         $conn->query("ALTER TABLE services ADD COLUMN image_path VARCHAR(255) DEFAULT NULL AFTER problem");
     }
+    $res = $conn->query("SHOW COLUMNS FROM services LIKE 'company'");
+    if ($res->num_rows == 0) {
+        $conn->query("ALTER TABLE services ADD COLUMN company VARCHAR(255) DEFAULT NULL AFTER device_name");
+    }
 
-    // Ensure email column exists in customers table
+    // Ensure email and company column exists in customers table
     $res = $conn->query("SHOW COLUMNS FROM customers LIKE 'email'");
     if ($res->num_rows == 0) {
         $conn->query("ALTER TABLE customers ADD COLUMN email VARCHAR(255) DEFAULT NULL AFTER phone");
+    }
+    $res = $conn->query("SHOW COLUMNS FROM customers LIKE 'company'");
+    if ($res->num_rows == 0) {
+        $conn->query("ALTER TABLE customers ADD COLUMN company VARCHAR(255) DEFAULT NULL AFTER email");
     }
 
     try {
@@ -44,12 +53,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 device_type VARCHAR(100) NOT NULL,
                 brand VARCHAR(100) DEFAULT NULL,
                 model VARCHAR(100) DEFAULT NULL,
+                company VARCHAR(255) DEFAULT NULL,
                 problem TEXT NOT NULL,
                 image_path VARCHAR(255),
                 status VARCHAR(50) DEFAULT 'Pending Approval',
                 device_received BOOLEAN DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )");
+
+            // Ensure company column in user_service_requests
+            $res = $conn->query("SHOW COLUMNS FROM user_service_requests LIKE 'company'");
+            if ($res->num_rows == 0) {
+                $conn->query("ALTER TABLE user_service_requests ADD COLUMN company VARCHAR(255) DEFAULT NULL AFTER model");
+            }
 
             $date_prefix = date("Ymd");
             $stmt = $conn->prepare("SELECT COUNT(*) as count FROM user_service_requests WHERE DATE(created_at) = CURDATE()");
@@ -81,8 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $address = 'N/A';
             $brand = 'N/A';
             
-            $stmt = $conn->prepare("INSERT INTO user_service_requests (service_id, name, phone, email, address, device_type, brand, model, problem, image_path, status, device_received) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending Drop-off', 0)");
-            $stmt->bind_param("ssssssssss", $service_id, $name, $phone, $email, $address, $service_type, $brand, $device_name, $problem, $image_path);
+            $stmt = $conn->prepare("INSERT INTO user_service_requests (service_id, name, phone, email, address, device_type, brand, model, company, problem, image_path, status, device_received) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending Drop-off', 0)");
+            $stmt->bind_param("sssssssssss", $service_id, $name, $phone, $email, $address, $service_type, $brand, $device_name, $company, $problem, $image_path);
             $stmt->execute();
 
             $conn->commit();
@@ -104,14 +120,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($customer) {
             $customer_id = $customer['id'];
-            if (empty($customer['email']) && !empty($email)) {
-                $upd = $conn->prepare("UPDATE customers SET email = ? WHERE id = ?");
-                $upd->bind_param("si", $email, $customer_id);
+            if ((empty($customer['email']) && !empty($email)) || !empty($company)) {
+                $upd = $conn->prepare("UPDATE customers SET email = IFNULL(email, ?), company = IFNULL(company, ?) WHERE id = ?");
+                $upd->bind_param("ssi", $email, $company, $customer_id);
                 $upd->execute();
             }
         } else {
-            $stmt = $conn->prepare("INSERT INTO customers (name, phone, email) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $name, $phone, $email);
+            $stmt = $conn->prepare("INSERT INTO customers (name, phone, email, company) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $name, $phone, $email, $company);
             $stmt->execute();
             $customer_id = $conn->insert_id;
         }
@@ -148,8 +164,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $date_received = date('Y-m-d');
         
-        $stmt = $conn->prepare("INSERT INTO services (service_id, customer_id, service_type, device_name, problem, image_path, status, date_received) VALUES (?, ?, ?, ?, ?, ?, 'Pending', ?)");
-        $stmt->bind_param("sisssss", $service_id, $customer_id, $service_type, $device_name, $problem, $image_path, $date_received);
+        $stmt = $conn->prepare("INSERT INTO services (service_id, customer_id, service_type, device_name, company, problem, image_path, status, date_received) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', ?)");
+        $stmt->bind_param("sissssss", $service_id, $customer_id, $service_type, $device_name, $company, $problem, $image_path, $date_received);
         $stmt->execute();
         $service_pk = $conn->insert_id;
 

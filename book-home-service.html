@@ -139,10 +139,10 @@
               </div>
 
               <!-- Row 2 -->
-              <div class="form-row">
-                <label>Email Address <span style="color:red">*</span></label>
-                <input name="email" type="email" placeholder="e.g. name@example.com" required>
-              </div>
+               <div class="form-row">
+                 <label>Email Address <span style="color:red">*</span></label>
+                 <input name="email" type="email" placeholder="e.g. name@example.com" required>
+               </div>
               <div class="form-row">
                 <label>Service Required <span style="color:red">*</span></label>
                 <select name="service_type" required title="Select the service you need">
@@ -177,12 +177,12 @@
               </div>
 
               <!-- Row 5 (Full Width) -->
-              <div class="form-row" style="grid-column: span 2;">
-                <label>Problem Description <span style="color:red">*</span></label>
-                <textarea name="problem" id="problem" rows="3" required
-                  placeholder="Briefly describe what needs to be fixed..."></textarea>
-              </div>
-            </div>
+               <div class="form-row" style="grid-column: span 2;">
+                 <label>Problem Description <span style="color:red">*</span></label>
+                 <textarea name="problem" id="problem" rows="3" required
+                   placeholder="Briefly describe what needs to be fixed..."></textarea>
+               </div>
+             </div>
 
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 30px;">
               <div class="recaptcha-wrapper">
@@ -201,9 +201,18 @@
     </section>
   </main>
 
-  <script src="service-panel/assets/js/image-processor.js?v=1.2"></script>
-  <script src="js/script.js?v=1.2"></script>
+  <script src="service-panel/assets/js/image-processor.js?v=1.4"></script>
+  <script src="js/script.js?v=1.4"></script>
   <script>
+    // Check for local file protocol
+    if (window.location.protocol === 'file:') {
+      const statusBox = document.getElementById('formStatus');
+      statusBox.style.display = 'block';
+      statusBox.style.color = '#856404';
+      statusBox.style.backgroundColor = '#fff3cd';
+      statusBox.innerHTML = '<strong>Warning:</strong> You are opening this file directly from your computer. PHP and API features require a local server like <strong>XAMPP</strong> (http://localhost).';
+    }
+
     // reCAPTCHA Callbacks
     function onRecaptchaSuccess() {
       document.getElementById('submitBtn').disabled = false;
@@ -212,7 +221,7 @@
       document.getElementById('submitBtn').disabled = true;
     }
 
-    // Date Restrictions
+     // Date Restrictions
     const dateInput = document.getElementById('booking_date');
     const holidays = [
       '2026-01-01', '2026-01-14', '2026-01-26', '2026-03-04', '2026-03-20',
@@ -311,13 +320,10 @@
 
       try {
         const formData = new FormData(form);
-
-        // Use processed blob if available
-        if (window.lastProcessedBlob) {
-          formData.set('image', window.lastProcessedBlob, 'processed_image.jpg');
-        }
-
-        const response = await fetch('service-panel/api/add_home_service_request.php', { method: 'POST', body: formData });
+        const response = await fetch('service-panel/api/add_home_service_request.php', {
+          method: 'POST',
+          body: formData
+        });
         const result = await response.json();
 
         statusBox.style.display = 'block';
@@ -334,13 +340,17 @@
           if (window.grecaptcha) grecaptcha.reset();
           document.getElementById('submitBtn').disabled = true;
         }
-      } catch (error) {
-        statusBox.style.display = 'block';
-        statusBox.style.color = '#d93025'; statusBox.style.backgroundColor = '#fce8e6';
-        statusBox.innerText = "Network error.";
-        if (window.grecaptcha) grecaptcha.reset();
-        document.getElementById('submitBtn').disabled = true;
-      }
+       } catch (error) {
+         statusBox.style.display = 'block';
+         statusBox.style.color = '#d93025'; statusBox.style.backgroundColor = '#fce8e6';
+         if (window.location.protocol === 'file:') {
+           statusBox.innerHTML = "<strong>Network Error:</strong> API calls are blocked when using <code>file://</code> protocol. Please use <code>http://localhost</code>.";
+         } else {
+           statusBox.innerText = "Network error or Server misconfiguration. Please ensure your local server is running.";
+         }
+         if (window.grecaptcha) grecaptcha.reset();
+         document.getElementById('submitBtn').disabled = true;
+       }
       btn.disabled = false;
       btn.innerHTML = 'Book Now';
     });

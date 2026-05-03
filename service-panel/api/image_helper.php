@@ -61,30 +61,29 @@ function processAndSaveImage($file, $target_dir, $watermark_text = "Infinity Com
     $black_stroke = imagecolorallocatealpha($image, 0, 0, 0, 70);    // ~45% transparent stroke
     $white_solid = imagecolorallocate($image, 255, 255, 255);
 
-    // 1. Watermark (Center)
-    $watermark_text = "Infinity Computer";
+    // 1. Watermark (Opaque Text Only Pattern)
+    $text = "infinity computer";
     if ($use_ttf) {
-        $fsize = $width / 10;
-        $angle = 25;
-        $bbox = imagettfbbox($fsize, $angle, $font_path, $watermark_text);
-        $tw = $bbox[2] - $bbox[6]; $th = $bbox[3] - $bbox[7];
-        $x = ($width / 2) - ($tw / 2);
-        $y = ($height / 2) + ($th / 2);
+        $fsize = max(10, $width / 45); 
+        $angle = 45; // Upward tilt
+        $white_visible = imagecolorallocatealpha($image, 255, 255, 255, 38); // ~70% Opacity (127 * 0.3)
         
-        // High Contrast Border
-        $offset = max(1, $width / 600);
-        imagettftext($image, $fsize, $angle, $x+$offset, $y+$offset, $black_stroke, $font_path, $watermark_text);
-        imagettftext($image, $fsize, $angle, $x-$offset, $y-$offset, $black_stroke, $font_path, $watermark_text);
-        imagettftext($image, $fsize, $angle, $x+$offset, $y-$offset, $black_stroke, $font_path, $watermark_text);
-        imagettftext($image, $fsize, $angle, $x-$offset, $y+$offset, $black_stroke, $font_path, $watermark_text);
-        
-        // Main Text (Transparent)
-        imagettftext($image, $fsize, $angle, $x, $y, $white_fill, $font_path, $watermark_text);
+        $step_x = $fsize * 7;
+        $step_y = $fsize * 4;
+        $range = max($width, $height) * 1.5;
+
+        for ($y = -$range; $y < $range * 2; $y += $step_y) {
+            $row_index = floor($y / $step_y);
+            $shift = ($row_index % 2) * ($step_x / 2);
+            
+            for ($x = -$range; $x < $range * 2; $x += $step_x) {
+                imagettftext($image, $fsize * 0.7, $angle, $x + $shift, $y, $white_visible, $font_path, $text);
+            }
+        }
     } else {
         $fsize = 5;
         $tw = imagefontwidth($fsize) * strlen($watermark_text);
         $x = ($width - $tw) / 2; $y = $height / 2;
-        imagestring($image, $fsize, $x+1, $y+1, $black_stroke, $watermark_text);
         imagestring($image, $fsize, $x, $y, $white_fill, $watermark_text);
     }
 

@@ -177,7 +177,6 @@
             color: #475569;
         }
 
-        /* Multi-service Accordion Tweaks */
         .service-accordion {
             background: #fff;
             border: 1px solid var(--border-color);
@@ -251,6 +250,53 @@
                 margin: 0;
             }
         }
+
+        /* Tab System Styles */
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .nav-links a.header-active {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-links a.header-active::after {
+            width: 60% !important;
+            left: 20% !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
     </style>
 </head>
 
@@ -268,62 +314,206 @@
                 </div>
             </a>
             <ul class="nav-links">
-                <li><a href="admin/index.html">Staff Sign-In</a></li>
+                <li><a href="javascript:void(0)" id="headerTrack" onclick="switchTab('track-service-tab')"
+                        class="header-active">Track Service</a></li>
+                <li><a href="javascript:void(0)" id="headerNewService" onclick="switchTab('new-service-tab')">Add New Service</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
             </ul>
         </div>
     </header>
 
     <div class="container">
-        <div class="search-section">
-            <h2>Track Your Service Status</h2>
-            <p>Enter your Service ID or Mobile Number to check all your device repairs.</p>
-            <div class="search-bar mt-4"
-                style="max-width: 600px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-radius: 50px;">
-                <input type="text" id="searchInput" class="form-control" placeholder="e.g. INF-2026-001 or 9876543210"
-                    onkeypress="if(event.key === 'Enter') searchService()"
-                    style="border-radius:50px 0 0 50px; padding:18px 25px; border-right:0;">
-                <button class="btn btn-primary" onclick="searchService()"
-                    style="border-radius:0 50px 50px 0; padding: 18px 35px;">Track Orders</button>
+        <!-- 1. TRACK SERVICE TAB -->
+        <div id="track-service-tab" class="tab-pane active">
+            <div class="search-section">
+                <h2>Track Your Service Status</h2>
+                <p>Enter your Service ID or Mobile Number to check all your device repairs.</p>
+                <div class="search-bar mt-4"
+                    style="max-width: 600px; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-radius: 50px;">
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="e.g. INF-2026-001 or 9876543210"
+                        onkeypress="if(event.key === 'Enter') searchService()"
+                        style="border-radius:50px 0 0 50px; padding:18px 25px; border-right:0;">
+                    <button class="btn btn-primary" onclick="searchService()"
+                        style="border-radius:0 50px 50px 0; padding: 18px 35px;">Track Orders</button>
+                </div>
+                <div id="loading" class="mt-4 hidden" style="font-weight:600; color:var(--primary-color);">Checking
+                    systems...</div>
+                <div id="error" class="mt-4 hidden"
+                    style="color: var(--danger); font-weight:600; background: #fee2e2; padding: 15px; border-radius: 8px; max-width: 600px; margin: 20px auto 0;">
+                </div>
             </div>
-            <div id="loading" class="mt-4 hidden" style="font-weight:600; color:var(--primary-color);">Checking
-                systems...</div>
-            <div id="error" class="mt-4 hidden"
-                style="color: var(--danger); font-weight:600; background: #fee2e2; padding: 15px; border-radius: 8px; max-width: 600px; margin: 20px auto 0;">
-            </div>
+
+            <div id="resultsArea" class="hidden" style="max-width: 850px; margin: 0 auto;"></div>
         </div>
 
-        <div id="resultsArea" class="hidden" style="max-width: 850px; margin: 0 auto;">
-            <!-- Results will be injected here -->
+        <!-- 2. NEW SERVICE TAB -->
+        <div id="new-service-tab" class="tab-pane">
+            <div class="card" style="max-width: 900px; margin: 40px auto; padding: 40px;">
+                <h2 class="card-title">Register New Service Request</h2>
+                <form id="addServiceForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Customer Name <span style="color:var(--danger)">*</span></label>
+                            <input type="text" name="name" class="form-control" required placeholder="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span style="color:var(--danger)">*</span></label>
+                            <input type="tel" name="phone" class="form-control" required placeholder="e.g. 9876543210">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="e.g. user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Service Type <span style="color:var(--danger)">*</span></label>
+                            <select name="service_type" class="form-control" required>
+                                <option value="">Select Type...</option>
+                                <option value="Laptop Repair">Laptop Repair</option>
+                                <option value="Mobile Repair">Mobile Repair</option>
+                                <option value="PC Assembly">PC Assembly</option>
+                                <option value="Printer Service">Printer Service</option>
+                                <option value="Network Setup">Network Setup</option>
+                                <option value="Data Recovery">Data Recovery</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Device Name / Model <span style="color:var(--danger)">*</span></label>
+                            <input type="text" name="device_name" class="form-control" placeholder="e.g. Dell XPS 15"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" name="company" class="form-control" placeholder="e.g. Acme Corp">
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" name="device_received" value="1" checked
+                                style="width: 20px; height: 20px; accent-color: var(--primary-color);">
+                            <span style="font-weight: 500;">Device Received at Station</span>
+                        </label>
+                        <small style="color: #6c757d; display: block; margin-top: 5px;">Uncheck this if the device has
+                            not been dropped off yet. The request will go to User Requests instead of Active
+                            Jobs.</small>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label>Problem Description <span style="color:var(--danger)">*</span></label>
+                        <textarea name="problem" class="form-control" rows="4" required
+                            placeholder="Describe the issue in detail..."></textarea>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label>Upload Device Image (Optional)</label>
+                        <div class="image-upload-wrapper">
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                                <label
+                                    style="flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; background: #6c757d; color: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; transition: background 0.3s;"
+                                    onmouseover="this.style.background='#5a6268'"
+                                    onmouseout="this.style.background='#6c757d'">
+                                    <span>From Gallery</span>
+                                    <input type="file" accept="image/*" class="image-input" style="display: none;">
+                                </label>
+                                <label class="camera-btn"
+                                    style="flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary-color); color: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; transition: background 0.3s;">
+                                    <span>Take Photo</span>
+                                    <input type="file" accept="image/*" capture="environment" class="image-input"
+                                        style="display: none;">
+                                </label>
+                            </div>
+                            <div id="imagePreview"></div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary"
+                            style="width:100%; max-width:300px; padding:15px; font-size:1.1rem;">Submit Request</button>
+                    </div>
+                </form>
+                <div id="formMsg" class="mt-4 text-center" style="font-weight:600; font-size:1.1rem;"></div>
+            </div>
         </div>
     </div>
 
+    <script src="assets/js/image-processor.js?v=1.4"></script>
     <script src="assets/js/main.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Init Image Processor
+            if (typeof ImageProcessor !== 'undefined') {
+                ImageProcessor.setupPreview('.image-input', '#imagePreview', false);
+                ImageProcessor.initCameraVisibility('.camera-btn');
+            }
+        });
+
+        function switchTab(id) {
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+
+            // Sync Header Links UI
+            const headerTrack = document.getElementById('headerTrack');
+            const headerNewService = document.getElementById('headerNewService');
+
+            if (headerTrack && headerNewService) {
+                headerTrack.classList.remove('header-active');
+                headerNewService.classList.remove('header-active');
+
+                if (id === 'track-service-tab') {
+                    headerTrack.classList.add('header-active');
+                } else if (id === 'new-service-tab') {
+                    headerNewService.classList.add('header-active');
+                }
+            }
+        }
+
+        // ====== NEW SERVICE FORM LOGIC ======
+        document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.innerText = 'Processing...';
+
+            const formData = new FormData(e.target);
+            if (window.lastProcessedBlob) {
+                formData.set('image', window.lastProcessedBlob, 'processed_image.jpg');
+            }
+
+            try {
+                const res = await fetch('api/add_service.php', { method: 'POST', body: formData });
+                const json = await res.json();
+                const msg = document.getElementById('formMsg');
+                if (json.status === 'success') {
+                    msg.innerHTML = `<span style="color:var(--success)">${json.message}.<br>Service ID: <strong style="font-size:1.4rem;">${json.service_id}</strong></span>`;
+                    e.target.reset();
+                    document.getElementById('imagePreview').innerHTML = '';
+                    window.lastProcessedBlob = null;
+                    setTimeout(() => { msg.innerHTML = ''; switchTab('track-service-tab'); }, 5000);
+                } else {
+                    msg.innerHTML = `<span style="color:var(--danger)">Error: ${json.message}</span>`;
+                }
+            } catch (err) {
+                alert('Request failed.');
+            }
+            btn.disabled = false;
+            btn.innerText = 'Submit Request';
+        });
+
         async function searchService() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) return;
-
             document.getElementById('loading').classList.remove('hidden');
             document.getElementById('error').classList.add('hidden');
             document.getElementById('resultsArea').classList.add('hidden');
-
             try {
                 const res = await fetch(`api/search_service.php?q=${encodeURIComponent(query)}`);
                 const json = await res.json();
-
                 document.getElementById('loading').classList.add('hidden');
-
-                if (json.status === 'success' && json.data.length > 0) {
-                    renderResults(json.data);
-                } else {
-                    document.getElementById('error').innerText = 'No service records found. Please check your ID or Phone Number.';
-                    document.getElementById('error').classList.remove('hidden');
-                }
-            } catch (e) {
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('error').innerText = 'An error occurred while communicating with the server.';
-                document.getElementById('error').classList.remove('hidden');
-            }
+                if (json.status === 'success' && json.data.length > 0) { renderResults(json.data); }
+                else { document.getElementById('error').innerText = 'No service records found. Please check your ID or Phone Number.'; document.getElementById('error').classList.remove('hidden'); }
+            } catch (e) { document.getElementById('loading').classList.add('hidden'); document.getElementById('error').innerText = 'An error occurred while communicating with the server.'; document.getElementById('error').classList.remove('hidden'); }
         }
 
         function getStepData(status) {
@@ -340,214 +530,42 @@
         function toggleAccordion(id) {
             const body = document.getElementById('body-' + id);
             const header = document.getElementById('header-' + id);
-            if (body.classList.contains('open')) {
-                body.classList.remove('open');
-                header.classList.remove('open');
-            } else {
-                body.classList.add('open');
-                header.classList.add('open');
-            }
+            if (body.classList.contains('open')) { body.classList.remove('open'); header.classList.remove('open'); }
+            else { body.classList.add('open'); header.classList.add('open'); }
         }
 
         function renderResults(services) {
             const container = document.getElementById('resultsArea');
             container.innerHTML = '';
             container.classList.remove('hidden');
-
             const isMulti = services.length > 1;
-
-            if (isMulti) {
-                const h = document.createElement('h3');
-                h.style.marginBottom = '25px';
-                h.style.textAlign = 'center';
-                h.style.color = 'var(--primary-dark)';
-                h.innerText = `Service History (${services.length} records found)`;
-                container.appendChild(h);
-            }
+            if (isMulti) { const h = document.createElement('h3'); h.style.cssText = 'margin-bottom:25px; text-align:center; color:var(--primary-dark);'; h.innerText = `Service History (${services.length} records found)`; container.appendChild(h); }
 
             services.forEach((svc, index) => {
                 const wrap = document.createElement('div');
                 wrap.className = isMulti ? 'service-accordion' : 'card';
                 if (!isMulti) wrap.style.marginBottom = '40px';
-
                 const { currentStep, progress } = getStepData(svc.status);
                 const isCancelled = currentStep === -1;
                 const isOpen = !isMulti || index === 0;
-
-                // Determine display name and type
                 const source = svc.source_type || 'engineering';
-                let typeLabel = '';
-                let typeClass = '';
-                let deviceDisplayName = svc.device_name || '';
-
-                if (source === 'engineering') {
-                    typeLabel = 'Shop Service';
-                    typeClass = 'status-approved'; // Reuse existing styles if available or just inline
-                } else if (source === 'web_request') {
-                    typeLabel = 'Web Inquiry';
-                    typeClass = 'status-pending';
-                    deviceDisplayName = `${svc.brand} ${svc.model} (${svc.device_type})`;
-                } else if (source === 'home') {
-                    typeLabel = 'Home Service';
-                    typeClass = 'status-diagnosing';
-                    deviceDisplayName = svc.service_type || 'Home Visit';
-                }
-
+                let typeLabel = source === 'engineering' ? 'Shop Service' : (source === 'web_request' ? 'Web Inquiry' : 'Home Service');
+                let deviceDisplayName = source === 'web_request' ? `${svc.brand} ${svc.model} (${svc.device_type})` : (source === 'home' ? (svc.service_type || 'Home Visit') : (svc.device_name || ''));
                 const sourceBadge = `<span style="font-size: 0.7rem; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase; margin-right: 10px;">${typeLabel}</span>`;
 
-                // Create Header (always visible in multi)
-                let html = '';
-                if (isMulti) {
-                    html += `
-                        <div class="service-header ${isOpen ? 'open' : ''}" id="header-${svc.id || svc.service_id}" onclick="toggleAccordion('${svc.id || svc.service_id}')">
-                            <div style="flex:1;">
-                                <div style="display:flex; align-items:center; gap:15px; margin-bottom:5px; flex-wrap: wrap;">
-                                    ${sourceBadge}
-                                    <strong style="font-size:1.1rem; color:var(--primary-dark);">${svc.service_id}</strong>
-                                    <span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span>
-                                </div>
-                                <div style="color:var(--muted); font-size:0.95rem;">${deviceDisplayName} - ${formatDate(svc.date_received || svc.created_at)}</div>
-                            </div>
-                            <div style="color:var(--primary-color); font-weight:600; font-size:1.2rem;">▼</div>
-                        </div>
-                        <div class="service-body ${isOpen ? 'open' : ''}" id="body-${svc.id || svc.service_id}">
-                    `;
-                } else {
-                    html += `
-                        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
-                            <span>${sourceBadge} Ticket: <strong style="color:var(--text-dark);">${svc.service_id}</strong></span>
-                            <span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span>
-                        </div>
-                    `;
-                }
+                let html = isMulti ? `<div class="service-header ${isOpen ? 'open' : ''}" id="header-${svc.id || svc.service_id}" onclick="toggleAccordion('${svc.id || svc.service_id}')"><div style="flex:1;"><div style="display:flex; align-items:center; gap:15px; margin-bottom:5px; flex-wrap: wrap;">${sourceBadge}<strong style="font-size:1.1rem; color:var(--primary-dark);">${svc.service_id}</strong><span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span></div><div style="color:var(--muted); font-size:0.95rem;">${deviceDisplayName} - ${formatDate(svc.date_received || svc.created_at)}</div></div><div style="color:var(--primary-color); font-weight:600; font-size:1.2rem;">▼</div></div><div class="service-body ${isOpen ? 'open' : ''}" id="body-${svc.id || svc.service_id}">` : `<div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;"><span>${sourceBadge} Ticket: <strong style="color:var(--text-dark);">${svc.service_id}</strong></span><span class="${getStatusBadgeClass(svc.status)}">${svc.status}</span></div>`;
 
-                // Show Stepper only for engineering or if status suggests it
                 if (source === 'engineering') {
-                    if (isCancelled) {
-                        html += `
-                            <div class="track-stepper" style="justify-content:center;">
-                                <div class="step cancelled-step">
-                                    <div class="step-icon">❌</div>
-                                    <p>Service Cancelled</p>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        html += `
-                            <div class="track-stepper" style="--prog-height: ${progress};">
-                                <div class="track-stepper-progress" style="width: ${window.innerWidth > 768 ? progress : '2px'};"></div>
-                                
-                                <div class="step ${currentStep >= 0 ? 'done' : ''} ${currentStep === 0 ? 'active' : ''}">
-                                    <div class="step-icon">📦</div>
-                                    <p>Received</p>
-                                </div>
-                                
-                                <div class="step ${currentStep >= 1 ? 'done' : ''} ${currentStep === 1 ? 'active' : ''}">
-                                    <div class="step-icon">🔍</div>
-                                    <p>Diagnosing</p>
-                                </div>
-                                
-                                <div class="step ${currentStep >= 2 ? 'done' : ''} ${currentStep === 2 ? 'active' : ''}">
-                                    <div class="step-icon">🔧</div>
-                                    <p>Repairing</p>
-                                </div>
-                                
-                                <div class="step ${currentStep >= 3 ? 'done' : ''} ${currentStep === 3 ? 'active' : ''}">
-                                    <div class="step-icon">✅</div>
-                                    <p>Ready</p>
-                                </div>
-                                
-                                <div class="step ${currentStep >= 4 ? 'done' : ''} ${currentStep === 4 ? 'active' : ''}">
-                                    <div class="step-icon">🎉</div>
-                                    <p>Delivered</p>
-                                </div>
-                            </div>
-                        `;
-                    }
+                    if (isCancelled) { html += `<div class="track-stepper" style="justify-content:center;"><div class="step cancelled-step"><div class="step-icon">❌</div><p>Service Cancelled</p></div></div>`; }
+                    else { html += `<div class="track-stepper" style="--prog-height: ${progress};"><div class="track-stepper-progress" style="width: ${window.innerWidth > 768 ? progress : '2px'};"></div><div class="step ${currentStep >= 0 ? 'done' : ''} ${currentStep === 0 ? 'active' : ''}"><div class="step-icon">📦</div><p>Received</p></div><div class="step ${currentStep >= 1 ? 'done' : ''} ${currentStep === 1 ? 'active' : ''}"><div class="step-icon">🔍</div><p>Diagnosing</p></div><div class="step ${currentStep >= 2 ? 'done' : ''} ${currentStep === 2 ? 'active' : ''}"><div class="step-icon">🔧</div><p>Repairing</p></div><div class="step ${currentStep >= 3 ? 'done' : ''} ${currentStep === 3 ? 'active' : ''}"><div class="step-icon">✅</div><p>Ready</p></div><div class="step ${currentStep >= 4 ? 'done' : ''} ${currentStep === 4 ? 'active' : ''}"><div class="step-icon">🎉</div><p>Delivered</p></div></div>`; }
                 }
 
-                // Info
-                html += `
-                    <div style="border-top: 1px solid var(--border-color); padding-top: 25px; margin-top: 10px;">
-                        <h4 style="margin-bottom:15px; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Details & Information</h4>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <label>Customer Details</label>
-                                <div style="font-weight:600; font-size:1.1rem; color:var(--text-dark);">${svc.name}</div>
-                                <div class="text-muted" style="font-size:0.9rem;">${svc.phone} ${svc.email ? ' | ' + svc.email : ''}</div>
-                            </div>
-                            <div class="info-item">
-                                <label>Device / Service</label>
-                                <div style="font-weight:600; color:var(--text-dark);">${deviceDisplayName}</div>
-                                <div class="text-muted" style="font-size:0.85rem;">${svc.service_type || (source === 'home' ? 'Home Service' : 'Standard')}</div>
-                            </div>
-                        </div>
-                `;
-
-                // Add Home Service specific info
-                if (source === 'home') {
-                    html += `
-                        <div class="info-grid" style="margin-top:15px;">
-                            <div class="info-item">
-                                <label>Schedule</label>
-                                <div style="font-weight:600; color:var(--text-dark);">${svc.booking_date} at ${svc.time_slot}</div>
-                            </div>
-                            <div class="info-item">
-                                <label>Address</label>
-                                <div style="font-weight:600; color:var(--text-dark);">${svc.address}</div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                html += `
-                        <div class="info-item" style="margin-top: 15px; background: #fff; border: 1px solid var(--border-color);">
-                            <label>Reported Problem / Inquiry</label>
-                            <div style="color:var(--text-dark);">${svc.problem || 'General Service Inquiry'}</div>
-                        </div>
-                    </div>
-                `;
-
-                if (svc.image_path) {
-                    html += `
-                        <div class="mt-4">
-                            <label style="font-weight:600; color:var(--muted); font-size:0.85rem; text-transform:uppercase;">Attached Image</label>
-                            <br><img src="../${svc.image_path}" class="device-image-preview" style="max-height:250px; border-radius:10px; margin-top:5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Device">
-                        </div>
-                    `;
-                }
-
-                if (svc.logs && svc.logs.length > 0) {
-                    html += `<div style="margin-top: 30px; padding-top: 10px;">
-                                <h4 style="margin-bottom:0; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Detailed Activity Log</h4>
-                                <ul class="timeline">`;
-                    svc.logs.forEach((log, idx) => {
-                        html += `
-                            <li>
-                                <div class="timeline-bullet"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-meta">
-                                        <h5 class="timeline-title">${log.status}</h5>
-                                        <span class="timeline-date">${formatDate(log.updated_at)}</span>
-                                    </div>
-                                    ${log.remarks ? `<p class="timeline-text">${log.remarks}</p>` : ''}
-                                </div>
-                            </li>
-                        `;
-                    });
-                    html += `</ul></div>`;
-                } else if (source !== 'engineering') {
-                    html += `
-                        <div style="margin-top: 20px; padding: 10px; background: #f8fafc; border-radius: 8px; font-size: 0.85rem; color: #64748b; border: 1px dashed #cbd5e1;">
-                            No technical logs yet. This request is currently in the <strong>${svc.status}</strong> stage.
-                        </div>
-                    `;
-                }
-
-                if (isMulti) {
-                    html += `</div>`; // Close service body
-                }
-
+                html += `<div style="border-top: 1px solid var(--border-color); padding-top: 25px; margin-top: 10px;"><h4 style="margin-bottom:15px; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Details & Information</h4><div class="info-grid"><div class="info-item"><label>Customer Details</label><div style="font-weight:600; font-size:1.1rem; color:var(--text-dark);">${svc.name}</div><div class="text-muted" style="font-size:0.9rem;">${svc.phone} ${svc.email ? ' | ' + svc.email : ''}</div></div><div class="info-item"><label>Device / Service</label><div style="font-weight:600; color:var(--text-dark);">${deviceDisplayName}</div><div class="text-muted" style="font-size:0.85rem;">${svc.service_type || (source === 'home' ? 'Home Service' : 'Standard')}</div></div></div>`;
+                if (source === 'home') { html += `<div class="info-grid" style="margin-top:15px;"><div class="info-item"><label>Schedule</label><div style="font-weight:600; color:var(--text-dark);">${svc.booking_date} at ${svc.time_slot}</div></div><div class="info-item"><label>Address</label><div style="font-weight:600; color:var(--text-dark);">${svc.address}</div></div></div>`; }
+                html += `<div class="info-item" style="margin-top: 15px; background: #fff; border: 1px solid var(--border-color);"><label>Reported Problem / Inquiry</label><div style="color:var(--text-dark);">${svc.problem || 'General Service Inquiry'}</div></div></div>`;
+                if (svc.image_path) { html += `<div class="mt-4"><label style="font-weight:600; color:var(--muted); font-size:0.85rem; text-transform:uppercase;">Attached Image</label><br><img src="../${svc.image_path}" class="device-image-preview" style="max-height:250px; border-radius:10px; margin-top:5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Device"></div>`; }
+                if (svc.logs && svc.logs.length > 0) { html += `<div style="margin-top: 30px; padding-top: 10px;"><h4 style="margin-bottom:0; color:var(--muted); font-size:0.9rem; text-transform:uppercase;">Detailed Activity Log</h4><ul class="timeline">`; svc.logs.forEach(log => { html += `<li><div class="timeline-bullet"></div><div class="timeline-content"><div class="timeline-meta"><h5 class="timeline-title">${log.status}</h5><span class="timeline-date">${formatDate(log.updated_at)}</span></div>${log.remarks ? `<p class="timeline-text">${log.remarks}</p>` : ''}</div></li>`; }); html += `</ul></div>`; }
+                if (isMulti) html += `</div>`;
                 wrap.innerHTML = html;
                 container.appendChild(wrap);
             });

@@ -15,15 +15,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         service_type VARCHAR(100) NOT NULL,
         booking_date DATE NOT NULL,
         time_slot VARCHAR(50) NOT NULL,
-        image_path VARCHAR(255) DEFAULT NULL,
+        problem TEXT NOT NULL,
         status VARCHAR(50) DEFAULT 'Pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
 
-    // Ensure image_path column exists (Compatible with older MySQL)
-    $res = $conn->query("SHOW COLUMNS FROM home_service_requests LIKE 'image_path'");
+    // Ensure columns exist (Compatible with older MySQL)
+    $res = $conn->query("SHOW COLUMNS FROM home_service_requests LIKE 'problem'");
     if ($res->num_rows == 0) {
-        $conn->query("ALTER TABLE home_service_requests ADD COLUMN image_path VARCHAR(255) DEFAULT NULL AFTER time_slot");
+        $conn->query("ALTER TABLE home_service_requests ADD COLUMN problem TEXT DEFAULT NULL AFTER time_slot");
     }
 
     $name = $_POST['name'] ?? '';
@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $service_type = $_POST['service_type'] ?? '';
     $booking_date = $_POST['booking_date'] ?? '';
     $time_slot = $_POST['time_slot'] ?? '';
+    $problem = $_POST['problem'] ?? '';
 
     // Verify reCAPTCHA
     $recaptchaSecret = '6LcadY0sAAAAAE-ADcAzbPWGpJLAdi1oW2jLB4Qe';
@@ -46,15 +47,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Image Processing
-    require_once 'image_helper.php';
+    // Image Processing (Reverted)
     $image_path = null;
+    /*
+    require_once 'image_helper.php';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $filename = processAndSaveImage($_FILES['image'], "../../uploads/service-requests/");
         if ($filename) {
             $image_path = "uploads/service-requests/" . $filename;
         }
     }
+    */
 
     $date_prefix = date("Ymd");
     $stmt = $conn->prepare("SELECT COUNT(*) as count FROM home_service_requests WHERE DATE(created_at) = CURDATE()");
@@ -65,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $service_id = "INF-HOME-" . $date_prefix . "-" . str_pad($next_num, 3, "0", STR_PAD_LEFT);
 
     try {
-        $stmt = $conn->prepare("INSERT INTO home_service_requests (service_id, name, phone, email, address, service_type, booking_date, time_slot, image_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')");
-        $stmt->bind_param("sssssssss", $service_id, $name, $phone, $email, $address, $service_type, $booking_date, $time_slot, $image_path);
+        $stmt = $conn->prepare("INSERT INTO home_service_requests (service_id, name, phone, email, address, service_type, booking_date, time_slot, problem, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')");
+        $stmt->bind_param("sssssssss", $service_id, $name, $phone, $email, $address, $service_type, $booking_date, $time_slot, $problem);
         $stmt->execute();
 
         // Send Email Notification to User

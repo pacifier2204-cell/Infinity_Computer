@@ -29,7 +29,9 @@ try {
         email VARCHAR(255) NOT NULL,
         address TEXT NOT NULL,
         service_type VARCHAR(100) NOT NULL,
+        booking_date DATE NOT NULL,
         time_slot VARCHAR(50) NOT NULL,
+        problem TEXT DEFAULT NULL,
         status VARCHAR(50) DEFAULT 'Pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");

@@ -29,24 +29,28 @@ const ImageProcessor = {
                     ctx.shadowOffsetX = 2;
                     ctx.shadowOffsetY = 2;
 
-                    // 1. Watermark (Diagonal Center)
+                    // 1. Watermark (Opaque Text Only Pattern)
                     ctx.save();
-                    ctx.translate(canvas.width / 2, canvas.height / 2);
-                    ctx.rotate(-25 * Math.PI / 180);
-                    
-                    const fontSize = canvas.width / 10;
-                    ctx.font = `bold ${fontSize}px Arial`;
+                    const fsize = Math.max(12, canvas.width / 45); 
                     ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; // Opaque/Very visible (70% opacity)
+                    ctx.font = `600 ${fsize * 0.7}px sans-serif`;
+                    
+                    // Rotate -45 degrees for upward tilt
+                    ctx.rotate(-45 * Math.PI / 180);
 
-                    // Draw Stroke (Subtle Outline)
-                    ctx.strokeStyle = "rgba(0, 0, 0, 0.4)";
-                    ctx.lineWidth = Math.max(2, fontSize / 25);
-                    ctx.strokeText(watermarkText, 0, 0);
+                    const stepX = fsize * 7;
+                    const stepY = fsize * 4;
+                    const range = Math.max(canvas.width, canvas.height) * 2;
 
-                    // Draw Fill (Transparent)
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
-                    ctx.fillText(watermarkText, 0, 0);
+                    for (let y = -range; y < range; y += stepY) {
+                        const rowIndex = Math.floor(y / stepY);
+                        const shift = (rowIndex % 2) * (stepX / 2); // Staggered rows
+                        
+                        for (let x = -range; x < range; x += stepX) {
+                            ctx.fillText("infinity computer", x + shift, y);
+                        }
+                    }
                     ctx.restore();
 
                     // 2. Timestamp (Bottom-Right)

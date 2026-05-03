@@ -16,13 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         brand VARCHAR(100) DEFAULT NULL,
         model VARCHAR(100) DEFAULT NULL,
         problem TEXT NOT NULL,
-        image_path VARCHAR(255),
+        image_path VARCHAR(255) DEFAULT NULL,
         status VARCHAR(50) DEFAULT 'Pending Approval',
         device_received BOOLEAN DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )");
-    
-    // Ensure image_path column exists if table was already there
+
+    // Ensure columns exist if table was already there
     $res = $conn->query("SHOW COLUMNS FROM user_service_requests LIKE 'image_path'");
     if ($res->num_rows == 0) {
         $conn->query("ALTER TABLE user_service_requests ADD COLUMN image_path VARCHAR(255) DEFAULT NULL AFTER problem");
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Verify reCAPTCHA
+    /* Temporarily disabled reCAPTCHA verification
     $recaptchaSecret = '6LcadY0sAAAAAE-ADcAzbPWGpJLAdi1oW2jLB4Qe';
     $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
     
@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['status' => 'error', 'message' => 'Robot verification failed. Please try again.']);
         exit;
     }
+    */
 
     // Determine unique ID INF-SRV-YYYYMMDD-XXXX
     $date_prefix = date("Ymd");
