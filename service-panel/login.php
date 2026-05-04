@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['staff_logged_in']) && $_SESSION['staff_logged_in'] === true) {
+    header('Location: index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -582,7 +589,7 @@
                     showToast('Login successful! Redirecting...', 'success');
                     btn.innerHTML = '✓ Redirecting...';
                     btn.disabled = true;
-                    setTimeout(() => { window.location.href = json.redirect || 'index.html'; }, 800);
+                    setTimeout(() => { window.location.href = json.redirect || 'index.php'; }, 800);
                     return;
                 } else if (json.blocked) {
                     document.getElementById('blockedOverlay').classList.add('active');

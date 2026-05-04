@@ -33,7 +33,7 @@ if (empty($enteredOtp) || strlen($enteredOtp) !== 6) {
 // Verify OTP
 if ($enteredOtp === $_SESSION['otp_code']) {
     // Success — create authenticated session
-    $_SESSION['staff_authenticated'] = true;
+    $_SESSION['staff_logged_in'] = true;
     $_SESSION['staff_email'] = $_SESSION['otp_email'];
     $_SESSION['staff_login_time'] = time();
     $_SESSION['staff_last_activity'] = time();
@@ -41,7 +41,7 @@ if ($enteredOtp === $_SESSION['otp_code']) {
     // Clean up OTP data
     unset($_SESSION['otp_code'], $_SESSION['otp_timestamp'], $_SESSION['otp_attempts'], $_SESSION['otp_last_sent']);
 
-    echo json_encode(['status' => 'success', 'message' => 'Login successful!', 'redirect' => 'index.html']);
+    echo json_encode(['status' => 'success', 'message' => 'Login successful!', 'redirect' => 'index.php']);
 } else {
     $_SESSION['otp_attempts']++;
     $remaining = 3 - $_SESSION['otp_attempts'];

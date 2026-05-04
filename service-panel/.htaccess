@@ -1,2 +1,2 @@
 AddType application/x-httpd-php .html
-php_value auto_prepend_file "C:/xampp/htdocs/InfinityComputer/service-panel/auth_guard.php"
+

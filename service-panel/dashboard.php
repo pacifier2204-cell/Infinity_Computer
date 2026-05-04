@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/auth_guard.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -141,7 +142,7 @@
                 </div>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">Track Service</a></li>
+                <li><a href="index.php">Track Service</a></li>
                 <li><a href="javascript:void(0)" id="headerNewService" onclick="switchTab('new-service-tab')">Add New
                         Service</a></li>
                 <li><a href="javascript:void(0)" id="headerDashboard" onclick="switchTab('main-workflow')"

@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/auth_guard.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -317,7 +318,7 @@
                 <li><a href="javascript:void(0)" id="headerTrack" onclick="switchTab('track-service-tab')"
                         class="header-active">Track Service</a></li>
                 <li><a href="javascript:void(0)" id="headerNewService" onclick="switchTab('new-service-tab')">Add New Service</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
             </ul>
         </div>
     </header>
