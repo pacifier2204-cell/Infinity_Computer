@@ -7,8 +7,8 @@ if (session_status() === PHP_SESSION_NONE) {
 // Database Connection
 require_once __DIR__ . '/../config/db.php';
 
-// Authorized Admin Email
-define('ADMIN_EMAIL', 'pacifier2204@gmail.com');
+// Authorized Admin Emails (Comma-separated)
+define('ADMIN_EMAILS', 'pacifier2204@gmail.com,icc@infinitycomputer.in,omshah1628@gmail.com');
 
 // OTP Security Settings
 define('OTP_EXPIRY_SECONDS', 30);
@@ -33,4 +33,6 @@ function sanitizeInput($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
 ?>
+

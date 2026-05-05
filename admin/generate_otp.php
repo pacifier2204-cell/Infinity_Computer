@@ -8,11 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$email = isset($_POST['email']) ? sanitizeInput($_POST['email']) : '';
+$email = isset($_POST['email']) ? strtolower(sanitizeInput($_POST['email'])) : '';
 $isResend = isset($_POST['resend']) && $_POST['resend'] === 'true';
 
 // 1. Validate Email
-if ($email !== ADMIN_EMAIL) {
+$allowedEmails = explode(',', strtolower(ADMIN_EMAILS));
+if (!in_array($email, $allowedEmails)){
     echo json_encode(['success' => false, 'message' => 'Unauthorized email address.']);
     exit;
 }
@@ -65,4 +66,3 @@ echo json_encode([
     'debug_otp' => $otp // REMOVE THIS IN PRODUCTION
 ]);
 exit;
-?>

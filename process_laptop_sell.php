@@ -77,8 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = isset($_POST['address']) ? strip_tags(trim($_POST['address'])) : '';
     
     $gadgetType = isset($_POST['gadgetType']) ? strip_tags(trim($_POST['gadgetType'])) : '';
-    $laptopCompany = isset($_POST['laptopCompany']) ? strip_tags(trim($_POST['laptopCompany'])) : '';
-    $laptopModel = isset($_POST['laptopModel']) ? strip_tags(trim($_POST['laptopModel'])) : '';
+    $laptopCompany = isset($_POST['gadgetCompany']) ? strip_tags(trim($_POST['gadgetCompany'])) : '';
+    $laptopModel = isset($_POST['gadgetModel']) ? strip_tags(trim($_POST['gadgetModel'])) : '';
     $serialNumber = isset($_POST['serialNumber']) ? strip_tags(trim($_POST['serialNumber'])) : '';
     $expectedPrice = isset($_POST['expectedPrice']) ? (float)$_POST['expectedPrice'] : 0;
     $description = isset($_POST['description']) ? strip_tags(trim($_POST['description'])) : '';
@@ -125,10 +125,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // SECTION D: Laptop Photos (Optional)
     $laptopImages = [];
-    if (isset($_FILES['laptopPhotos']) && !empty($_FILES['laptopPhotos']['name'][0])) {
-        $count = count($_FILES['laptopPhotos']['name']);
+    if (isset($_FILES['gadgetPhotos']) && !empty($_FILES['gadgetPhotos']['name'][0])) {
+        $count = count($_FILES['gadgetPhotos']['name']);
         for ($i = 0; $i < $count; $i++) {
-            $imgResult = handleFileUpload('laptopPhotos', 'uploads/laptops/photos/', ['jpg', 'jpeg', 'png'], 2 * 1024 * 1024, true, $i);
+            $imgResult = handleFileUpload('gadgetPhotos', 'uploads/laptops/photos/', ['jpg', 'jpeg', 'png'], 2 * 1024 * 1024, true, $i);
             if ($imgResult['success']) {
                 $laptopImages[] = $imgResult['path'];
             }
