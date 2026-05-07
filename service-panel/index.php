@@ -312,8 +312,8 @@
                 <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1;">
                     <span class="brand-text">Infinity<span class="text-accent">Computer</span></span>
                     <span
-                        style="font-size: 0.65rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Service
-                        Tracking</span>
+                        style="font-size: 0.65rem; color: #fb2a71; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">Service
+                        Panel</span>
                 </div>
             </a>
             <ul class="nav-links">
@@ -321,6 +321,7 @@
                         class="header-active">Track Service</a></li>
                 <li><a href="javascript:void(0)" id="headerNewService" onclick="switchTab('new-service-tab')">Add New Service</a></li>
                 <li><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="crm.php">CRM Analytics</a></li>
             </ul>
         </div>
     </header>

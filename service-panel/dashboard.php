@@ -8,6 +8,8 @@
     <title>Admin Dashboard - Staff Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         .tabs {
             display: flex;
@@ -147,6 +149,7 @@
                         Service</a></li>
                 <li><a href="javascript:void(0)" id="headerDashboard" onclick="switchTab('main-workflow')"
                         class="header-active">Dashboard</a></li>
+                <li><a href="crm.php">CRM Analytics</a></li>
             </ul>
         </div>
     </header>
@@ -327,8 +330,12 @@
                         </div>
                     </div>
 
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-primary"
+                    <div class="text-center mt-4" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div class="recaptcha-wrapper">
+                            <div class="g-recaptcha" data-sitekey="6LcadY0sAAAAAJZIH1jS5M3spZQ9qRn05lF0oB6d"
+                                data-callback="onPanelRecaptchaSuccess" data-expired-callback="onPanelRecaptchaExpired"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="panelSubmitBtn" disabled
                             style="width:100%; max-width:300px; padding:15px; font-size:1.1rem;">Submit Request</button>
                     </div>
                 </form>
@@ -575,6 +582,13 @@
         });
 
         // ====== NEW SERVICE FORM LOGIC ======
+        function onPanelRecaptchaSuccess() {
+            document.getElementById('panelSubmitBtn').disabled = false;
+        }
+        function onPanelRecaptchaExpired() {
+            document.getElementById('panelSubmitBtn').disabled = true;
+        }
+
         document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
@@ -594,13 +608,19 @@
                     msg.innerHTML = `<span style="color:var(--success)">${json.message}.<br>Service ID: <strong style="font-size:1.4rem;">${json.service_id}</strong></span>`;
                     e.target.reset();
                     document.getElementById('imagePreview').innerHTML = '';
+                    if (window.grecaptcha) grecaptcha.reset();
+                    document.getElementById('panelSubmitBtn').disabled = true;
                     window.lastProcessedBlob = null;
                     setTimeout(() => { msg.innerHTML = ''; switchTab('main-workflow'); }, 3000);
                 } else {
                     msg.innerHTML = `<span style="color:var(--danger)">Error: ${json.message}</span>`;
+                    if (window.grecaptcha) grecaptcha.reset();
+                    document.getElementById('panelSubmitBtn').disabled = true;
                 }
             } catch (err) {
                 alert('Request failed.');
+                if (window.grecaptcha) grecaptcha.reset();
+                document.getElementById('panelSubmitBtn').disabled = true;
             }
             btn.disabled = false;
             btn.innerText = 'Submit Request';

@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/../auth_guard.php'; ?>
 <?php
 require_once '../config/db.php';
 
@@ -14,6 +15,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (empty($name) || empty($phone) || empty($service_type) || empty($device_name) || empty($problem)) {
         echo json_encode(['status' => 'error', 'message' => 'All fields are required']);
+        exit;
+    }
+
+    // reCAPTCHA Verification
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+    if (empty($recaptchaResponse)) {
+        echo json_encode(['status' => 'error', 'message' => 'reCAPTCHA Verification Failed. Please solve the captcha.']);
+        exit;
+    }
+
+    $recaptchaSecret = '6LcadY0sAAAAAE-ADcAzbPWGpJLAdi1oW2jLB4Qe';
+    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $recaptchaSecret . '&response=' . $recaptchaResponse);
+    $responseData = json_decode($verifyResponse);
+
+    if (!$responseData->success) {
+        echo json_encode(['status' => 'error', 'message' => 'reCAPTCHA Verification Failed. Please try again.']);
         exit;
     }
 

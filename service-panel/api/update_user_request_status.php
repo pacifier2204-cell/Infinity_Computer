@@ -1,3 +1,4 @@
+<?php include __DIR__ . '/../auth_guard.php'; ?>
 <?php
 require_once '../../config/db.php';
 header('Content-Type: application/json');

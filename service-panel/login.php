@@ -98,7 +98,7 @@ if (isset($_SESSION['staff_logged_in']) && $_SESSION['staff_logged_in'] === true
         }
         .brand-sub {
             font-size: 0.65rem;
-            color: var(--primary-color);
+            color: #fb2a71;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
